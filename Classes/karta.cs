@@ -10,8 +10,12 @@ public class Karta
     // true czerwony false czarny  
     public bool kolor;
 
+    public bool odkryta;
+
     public Karta(int numer, bool kolor, string kolorSlowny) //kolorSlowny to Pik, Karo, Trefl, Kier
     {
+        odkryta = false;
+
         if (numer == 11)
         {
             nazwa = $"J {kolorSlowny}";

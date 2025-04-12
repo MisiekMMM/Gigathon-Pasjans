@@ -1,2 +1,5 @@
+# zrobić ruchy
 
-# Metoda do tasowania kart 
+# zrobić ustawienia
+    - Kolor w : emotkach/tekście
+    

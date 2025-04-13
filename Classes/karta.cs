@@ -2,7 +2,7 @@ using System;
 
 namespace Pasjans;
 
-public class Karta
+public class Karta  //Ta klasa odpowiada karcie w talii
 {
     public string nazwa;
 

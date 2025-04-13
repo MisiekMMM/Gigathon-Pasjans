@@ -6,10 +6,16 @@
     <RootNamespace>AAA_Gigathon_Pasjans</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>Pasjans</AssemblyName>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
 
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
   </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Pasjans;
 
-public static class MainMenu
+public static class MainMenu  //ta klasa obsługuje menu główne
 {
     public static void Otworz()
     {
@@ -16,39 +16,41 @@ public static class MainMenu
         Console.InputEncoding = Encoding.UTF8;
 
 
-        switch (AskPreference(["Zagraj", "Ustawienia", "Jak Grać"]))
+        switch (AskPreference(["Zagraj", "Ustawienia", "Jak Grać"]))  // zapytanie użytkownika
         {
             case 1:
-                Program.Start();
+                Program.Start();   //Otwarcie głównego programu
                 break;
             case 2:
-                Ustawienia.Otworz();
+                Ustawienia.Otworz();    //Otwarcie ustawień
                 break;
             case 3:
-                Tutorial.Otworz();
+                Tutorial.Otworz();  //Otwarcie menu jak grać
                 break;
             default:
                 break;
         }
     }
-    public static int AskPreference(params List<string> options)
+    public static int AskPreference(params List<string> options) //ta metoda zadaje pytanie
     {
-        Console.Clear();
-        Console.WriteLine(" ____            _                 \n" + "|  _ \\ __ _ ___ (_) __ _ _ __  ___ \n" + "| |_) / _` / __|| |/ _` | '_ \\/ __|\n" + "|  __/ (_| \\__ \\| | (_| | | | \\__ \\\n" + "|_|   \\__,_|___// |\\__,_|_| |_|___/\n" + "              |__/                 \n");
+        Console.Clear(); //Czyszczenie konsoli
 
-        foreach (string option in options)
+        //Wyświetlenie napisu w ASCII art
+        Console.WriteLine(" ____            _                 \n" + "|  _ \\ __ _ ___ (_) __ _ _ __  ___ \n" + "| |_) / _` / __|| |/ _` | '_ \\/ __|\n" + "|  __/ (_| \\__ \\| | (_| | | | \\__ \\\n" + "|_|   \\__,_|___// |\\__,_|_| |_|___/\n" + "              |__/                 \n");
+        Console.WriteLine(" _____\n         |A .  | _____\n         | /.\\ ||A ^  | _____\n         |(_._)|| / \\ ||A _  | _____\n         |  |  || \\ / || ( ) ||A_ _ |\n         |____V||  .  ||(_'_)||( v )|\n                |____V||  |  || \\ / |\n                       |____V||  .  |\n                              |____V|\n\n\n");
+        foreach (string option in options) //Wypisanie opcji
         {
             Console.WriteLine($"[{options.IndexOf(option) + 1}] {option}");
         }
 
-        Console.Write("\n");
-        string response = Console.ReadLine()!;
+        Console.WriteLine();//Nowa linia
+        ConsoleKeyInfo response = Console.ReadKey();  //Pobranie odpowiedzi od użytkownika
 
-        if (int.TryParse(response, out int result) && result > 0 && result <= options.Count)
+        if (int.TryParse(response.KeyChar.ToString(), out int result) && result > 0 && result <= options.Count)//sprawdzenie czy odpowiedź mieści się w liśice odpowiedzi
         {
             return result;
         }
 
-        return AskPreference(options);
+        return AskPreference(options); //zwracamy numer odpowiedzi
     }
 }

@@ -33,11 +33,11 @@ public static class MainMenu  //ta klasa obsługuje menu główne
     }
     public static int AskPreference(params List<string> options) //ta metoda zadaje pytanie
     {
-        Console.Clear(); //Czyszczenie konsoli
+        Utilities.Clear(); //Czyszczenie konsoli
 
         //Wyświetlenie napisu w ASCII art
         Console.WriteLine(" ____            _                 \n" + "|  _ \\ __ _ ___ (_) __ _ _ __  ___ \n" + "| |_) / _` / __|| |/ _` | '_ \\/ __|\n" + "|  __/ (_| \\__ \\| | (_| | | | \\__ \\\n" + "|_|   \\__,_|___// |\\__,_|_| |_|___/\n" + "              |__/                 \n");
-        Console.WriteLine(" _____\n         |A .  | _____\n         | /.\\ ||A ^  | _____\n         |(_._)|| / \\ ||A _  | _____\n         |  |  || \\ / || ( ) ||A_ _ |\n         |____V||  .  ||(_'_)||( v )|\n                |____V||  |  || \\ / |\n                       |____V||  .  |\n                              |____V|\n\n\n");
+        Console.WriteLine("          _____\n         |A .  | _____\n         | /.\\ ||A ^  | _____\n         |(_._)|| / \\ ||A _  | _____\n         |  |  || \\ / || ( ) ||A_ _ |\n         |____V||  .  ||(_'_)||( v )|\n                |____V||  |  || \\ / |\n                       |____V||  .  |\n                              |____V|\n\n\n");
         foreach (string option in options) //Wypisanie opcji
         {
             Console.WriteLine($"[{options.IndexOf(option) + 1}] {option}");

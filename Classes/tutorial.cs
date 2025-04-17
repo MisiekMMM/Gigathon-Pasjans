@@ -20,7 +20,7 @@ public static class Tutorial
 
         while (true)
         {
-            Console.Clear();
+            Utilities.Clear();
             Console.WriteLine("     _       _       ____             __ \n    | | __ _| | __  / ___|_ __ __ _  /__/\n _  | |/ _` | |/ / | |  _| '__/ _` |/ __|\n| |_| | (_| |   <  | |_| | | | (_| | (__ \n \\___/ \\__,_|_|\\_\\  \\____|_|  \\__,_|\\___|\n\n\n");
             Console.WriteLine(strony[numerStrony]);
             Console.WriteLine("\nNawiguj strzałkami, wciśnij X aby wyjść");

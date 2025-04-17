@@ -17,7 +17,7 @@ public static class Program
     static AudioFileReader? audioFile;  //plik muzyki
     static Thread? playbackThread;   // osobny wątek
     static bool isPlaying = true;
-    public static void Main()// wzór tworzenia karty: Karta(int numer, bool kolor, string kolorSlowny) 
+    public static void Main()
     {
         Console.OutputEncoding = Encoding.UTF8; //Obsługa emotek ♦♣♥♠
         Console.InputEncoding = Encoding.UTF8;
@@ -25,6 +25,7 @@ public static class Program
         Console.BackgroundColor = ConsoleColor.White; //Zmaina koloru tła na biały
         Console.ForegroundColor = ConsoleColor.Black;
 
+        Ustawienia.wartosci = Ustawienia.Wczytaj(Ustawienia.wartosci!);
 
         string filePath = "music.wav";
 
@@ -43,7 +44,7 @@ public static class Program
 
 
 
-        Console.Clear(); //odświeżenie konsoli
+        Utilities.Clear(); //odświeżenie konsoli
 
 
 
@@ -129,17 +130,7 @@ public static class Program
         }
         catch (Exception ex)
         {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(" ____  _           _ \n| __ )| | __ _  __| |\n|  _ \\|/// _` |/ _` |\n| |_) //| (_| | (_| |\n|____/|_|\\__,_|\\__,_|\n            (_(      \n\n\n");
-            Console.WriteLine(" |\\/\\/\\/|  \n |      |  \n |      |  \n | (o)(o)  \n C      _) \n  | ,___|  \n  |   /    \n /____\\    \n/      \\n\n\n");
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.WriteLine("Przez twoją nieuwagę pojawił się błąd!\n");
-            Console.WriteLine("Błąd jest na tyle poważny, że musimy zresetować grę. Aby uniknąć błędów w przyszłości zapoznaj się z instrukcją w zakładcę Jak Grać.");
-            Console.WriteLine("\nNaciśnij dowolny guzik aby wyjść");
-            Console.WriteLine("\n\n" + ex.Message);
-            Console.ReadKey();
-            Environment.Exit(100);
+            Utilities.Error("Przez twoją nieuwagę pojawił się błąd!", "Błąd jest na tyle poważny, że musimy zresetować grę. Aby uniknąć błędów w przyszłości zapoznaj się z instrukcją w zakładcę Jak Grać", ex);
         }
         UpdateUi(siatka, rezerwaOdk, gora, rezerwa, "Wystąpił błąd! Podaj ruch ponownie!\n Jeśli nie wiesz jak to zrobić wyjdź przez napisanie X i przejdź do zakładki Jak Grać!");
         return AskMove(siatka, rezerwaOdk, gora, rezerwa);
@@ -151,7 +142,7 @@ public static class Program
 
         try
         {
-            Console.Clear();
+            Utilities.Clear();
         }
         catch { }  // Wyczyszczenie konsoli 
 
@@ -209,41 +200,37 @@ public static class Program
         Console.Write("\n\n");
         try
         {
-            for (int i = 0; i < siatka.GetLength(0); i++) // Wiersze
+            for (int wiersz = 0; wiersz < 19; wiersz++)
             {
-                for (int j = 0; j < siatka.GetLength(1); j++) // Kolumny
+                for (int kolumna = 0; kolumna < 7; kolumna++)
                 {
-                    Karta karta = siatka[i, j];
-                    if (karta != null)   //Sprawdzanie czy karta nie jest pusta
+                    Karta karta = siatka[wiersz, kolumna];
+
+                    if (karta != null)
                     {
-                        if (karta.odkryta)//jeżeli karta jest odkryta
+                        if (karta.odkryta)
                         {
-                            printInColor(karta.nazwa); //drukuje nazwę Karty
+                            printInColor(karta.nazwa);
                         }
                         else
-                        {//Jeżeli karta jest zakryta:
-                            Console.ForegroundColor = ConsoleColor.Black; // Zmiana koloru na czarny
-                            Console.Write($"{symbolZakryty,-10}"); //wyrównuje znak zakrytej karty w 10 znakach
-
+                        {
+                            Console.Write($"{symbolZakryty,-10}");
                         }
+
+                    }
+                    else
+                    {
+                        Console.Write("          ");
                     }
                 }
-
-                if (!areAllEmpty(siatka, i)) //Jeżeli wszystkie karty następnego wiersza to nie null - przechodzimi do nowego wiersza
-                {
-                    Console.WriteLine(); // Przejście do nowego wiersza
-                }
+                Console.WriteLine();
             }
+
+
         }
         catch (Exception ex)
         {
-            try
-            {
-                Console.Clear();
-            }
-            catch { }
-            Console.WriteLine($"Błąd!   {ex.Message}\nSpróbuj zrestaretować grę.");
-            Environment.Exit(100);
+            Utilities.Error("Błąd podczas renderowania siatki!", "Spróbuj zrestartować grę!", ex);
         }
 
         Console.WriteLine("\n\n" + advice); //Napisanie porady pod siatką
@@ -262,7 +249,7 @@ public static class Program
         }
         return [0, 0];
     }
-    public static void printInColor(string Text) //DRY
+    public static void printInColor(string Text)
     {
         if (Text.Contains("Karo") || Text.Contains("Kier"))//Kier i karo 
         {
@@ -295,21 +282,22 @@ public static class Program
     }
     public static void OdkryjKarty(ref Karta[,] siatka)//ta metoda odkrywa karty na końcu każdej kolumny
     {
-        for (int i = 0; i < siatka.GetLength(0); i++) // Wiersze
+        for (int kolumna = 0; kolumna < 7; kolumna++) //kolumny
         {
-            for (int j = 0; j < siatka.GetLength(1); j++) // Kolumny
+            for (int wiersz = 0; wiersz <= kolumna; wiersz++) //wiersze
             {
-                Karta karta = siatka[i, j];
+                Karta karta = siatka[wiersz, kolumna];
                 if (karta != null)
                 {
-                    if (i + 1 < siatka.GetLength(0) && siatka[i + 1, j] == null) // jeżeli karta poniżej nie wychodzi za index tablicy i jest pusta:
+                    if (wiersz + 1 < siatka.GetLength(0) && siatka[wiersz + 1, kolumna] == null) // jeżeli karta poniżej nie wychodzi za index tablicy i jest pusta:
                     {
-                        siatka[i, j].odkryta = true;  //Karta zostaje odkrtyta
+                        siatka[wiersz, kolumna].odkryta = true;  //Karta zostaje odkrtyta
                     }
                 }
 
             }
         }
+
     }
     public static Karta[,] ZrobSiatke(List<Karta> kartas, out List<Karta> rezerwa)
     {
@@ -317,11 +305,11 @@ public static class Program
 
         int indexKarty = 0;
 
-        for (int j = 0; j < 7; j++)  //Ta pętla układa karty w kolejności z pasjansa
+        for (int kolumna = 0; kolumna < 7; kolumna++)
         {
-            for (int i = 0; i < 7 - j; i++)
+            for (int wiersz = 0; wiersz <= kolumna; wiersz++) // W każdej kolumnie o 1 więcej kart
             {
-                siatka[i, j] = kartas[indexKarty];
+                siatka[wiersz, kolumna] = kartas[indexKarty];
                 indexKarty++;
             }
         }
@@ -354,15 +342,21 @@ public static class Program
     }
     static void PlayLoop(string filePath)
     {
+
         waveOut = new WaveOutEvent();
         audioFile = new AudioFileReader(filePath);
         waveOut.Init(audioFile);
         waveOut.PlaybackStopped += OnPlaybackStopped!;
+        waveOut.Volume = (float)(int)Ustawienia.wartosci!["Głośność"] / 100f;
         waveOut.Play();
+
+
 
         // Keep thread alive while playing
         while (isPlaying)
         {
+            waveOut.Volume = (float)(int)Ustawienia.wartosci!["Głośność"] / 100f;
+
             Thread.Sleep(100); // Small delay to reduce CPU usage
         }
     }

@@ -1,8 +1,9 @@
 # zrobić ruchy
+    - Podmienić żeby ruch zwracał bool i miał parametr out
 
-# Podmienić żeby ruch zwracał bool i miał parametr out
-
-# Naprawić siatkę
+# Zmienić ui na terminal ui 
+ -https://github.com/gui-cs/TerminalGuiDesigner
+ -https://github.com/gui-cs/Terminal.Gui?tab=readme-ov-file
 
 # zrobić ustawienia
     - Kolor w : emotkach/tekście

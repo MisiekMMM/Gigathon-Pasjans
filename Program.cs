@@ -35,6 +35,8 @@ public static class Program
 
         MainMenu.Otworz(); //Otwiera menu główne
 
+
+
     }
     public static void Start()//Metoda wywoływana na początku. 
     {
@@ -81,70 +83,138 @@ public static class Program
 
         UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);   //Renderuje siatkę
 
-        siatka = AskMove(siatka, rezerwaOdkryta, kartyGora, rezerwa);
 
-        UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+        while (true)
+        {
+            Move(ref siatka, ref rezerwaOdkryta, ref rezerwa, ref kartyGora);
+        }
+
 
     }
-    public static Karta[,] AskMove(Karta[,] siatka, List<Karta> rezerwaOdk, Karta[,] gora, List<Karta> rezerwa)//ta metoda zadaje zapytanie o ruch
+
+    //zwraca true jeśli gra trwa
+    public static void Move(ref Karta[,] siatka, ref List<Karta> rezerwaOdkryta, ref List<Karta> rezerwa, ref Karta[,] kartyGora)
     {
         try
         {
-            string ruch = Console.ReadLine()!;
+            bool isMove = AskMove(out string source, out string destination);
 
-            if (String.IsNullOrWhiteSpace(ruch))//Jeżeli użytkownik nie podał ruchu
+            if (isMove)
             {
-                UpdateUi(siatka, rezerwaOdk, gora, rezerwa, "Podaj ruch! Jeśli nie wiesz jak to zrobić wyjdź przez napisanie X i przejdź do zakładki Jak Grać!");
-                return AskMove(siatka, rezerwaOdk, gora, rezerwa);
+                int miejsce = ZnajdzKarte(source, siatka, rezerwaOdkryta, kartyGora, out int wiersz, out int kolumna);
+
+                if (miejsce == 1)
+                {
+                    int docelowaKolumna = int.Parse(destination);
+
+                    int docelowyWiersz = znajdzOstatniaKarte(siatka, docelowaKolumna);
+
+                    bool canIt = CanBeCardPlacedOnMe(siatka[wiersz, kolumna], siatka[docelowyWiersz, docelowaKolumna], true);
+
+                    if (canIt)
+                    {
+                        siatka[docelowyWiersz + 1, docelowaKolumna] = siatka[wiersz, kolumna];
+
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+                        siatka[wiersz, kolumna] = null;
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+
+                        UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                    }
+                    else
+                    {
+                        UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                    }
+                }
+                else if (miejsce == 0)
+                {
+                    UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta nie jest jeszcze odkryta!");
+                }
             }
             else
             {
-                if (ruch.ToLower() == "x")
-                {
-                    MainMenu.Otworz();
-                    return new Karta[1, 1];
-                }
-                if (ruch.ToLower().Contains("do"))//Jeżeli komenda zawiera słowo kluczowe
-                {
-                    string[] ruchy = ruch.ToLower().Replace(" ", "").Split("do"); // zamienia komende na małe litery, usuwa spacje i rozdziela na tablicę
+                UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Podano niepoprawny ruch!\nNapisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
 
-                    if (ruchy.Length == 2) //jeżeli użytkownik podał tylko jeden ruch
-                    {
-                        int[] source = ZnajdzKarte(ruchy[0], siatka);   //znajduje źródło ruchu
-                        int[] destination = ZnajdzKarte(ruchy[1], siatka);  //znajduje cel
-
-
-                    }
-                    else//Jeżeli podał więcej niż jeden ruch lub nie podał go wcale
-                    {
-                        UpdateUi(siatka, rezerwaOdk, gora, rezerwa, "Podawaj tylko jeden ruch!\n Jeśli nie wiesz jak to zrobić wyjdź przez napisanie X i przejdź do zakładki Jak Grać!");
-                        return AskMove(siatka, rezerwaOdk, gora, rezerwa);
-                    }
-                }
-                else
-                {
-                    UpdateUi(siatka, rezerwaOdk, gora, rezerwa, "Podaj ruch!\n Jeśli nie wiesz jak to zrobić wyjdź przez napisanie X i przejdź do zakładki Jak Grać!");
-                    return AskMove(siatka, rezerwaOdk, gora, rezerwa);
-                }
             }
         }
         catch (Exception ex)
         {
-            Utilities.Error("Przez twoją nieuwagę pojawił się błąd!", "Błąd jest na tyle poważny, że musimy zresetować grę. Aby uniknąć błędów w przyszłości zapoznaj się z instrukcją w zakładcę Jak Grać", ex);
+            Utilities.Error("Coś się stało, ale nie wiem co!", "Przeczytaj instrukcję w menu Jak Grać", ex);
         }
-        UpdateUi(siatka, rezerwaOdk, gora, rezerwa, "Wystąpił błąd! Podaj ruch ponownie!\n Jeśli nie wiesz jak to zrobić wyjdź przez napisanie X i przejdź do zakładki Jak Grać!");
-        return AskMove(siatka, rezerwaOdk, gora, rezerwa);
+
+        return;
     }
+    public static bool CanBeCardPlacedOnMe(Karta karta, Karta naMnie, bool czySiatka) //false - na stos końcowy, true - w obrębie siatki
+    {
+        if (czySiatka)
+        {
+            if (karta.numer + 1 == naMnie.numer && karta.kolor != naMnie.kolor)
+                return true;
+        }
+        else
+        {
+            string kolor1 = karta.nazwa.Split(" ")[1];
+            string kolor2 = karta.nazwa.Split(" ")[1];
+
+            if (kolor1 == kolor2 && naMnie.numer - 1 == karta.numer)
+                return true;
+        }
+
+
+        return false;
+    }
+    public static int znajdzOstatniaKarte(Karta[,] siatka, int kolumna)
+    {
+        for (int i = 0; i < siatka.GetLength(0); i++)
+        {
+            if (siatka[i + 1, kolumna] == null && i + 1 < siatka.GetLength(0))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    public static bool AskMove(out string source, out string destination)
+    {
+
+        source = "";
+        destination = "";
+        try
+        {
+            string ruch = Console.ReadLine()!;
+
+            if (ruch.Replace(" ", "").ToLower() == "x")
+            {
+                MainMenu.Otworz();
+                return false;
+            }
+
+            string[] splitted = ruch.Split('-', 2);
+
+            if (splitted.Length != 2)
+                return false;
+
+
+            source = splitted[0];
+            destination = splitted[1];
+        }
+        catch (Exception ex)
+        {
+            Utilities.Error("Wystąpił błąd w metodzie AskMove!", "Przeczytaj instrukcję obsługi w menu Jak Grać!", ex);
+        }
+
+
+
+
+        return true;
+    }
+
     public static void UpdateUi(Karta[,] siatka, List<Karta> rezerwaOdk, Karta[,] gora, List<Karta> rezerwa, string advice = "")  //parametr advice wyświetla się u góry ekranu
     {//Ta metoda renderuje karty w terminalu 
 
         string symbolZakryty = "x"; //ustawienie symbolu zakrytej karty. Do zmiany w ustawieniach
 
-        try
-        {
-            Utilities.Clear();
-        }
-        catch { }  // Wyczyszczenie konsoli 
+        Utilities.Clear();
 
         Console.ForegroundColor = ConsoleColor.Black; //zmiana koloru na czarny
 
@@ -223,7 +293,10 @@ public static class Program
                         Console.Write("          ");
                     }
                 }
-                Console.WriteLine();
+                if (!areAllEmpty(siatka, wiersz))
+                {
+                    Console.WriteLine();
+                }
             }
 
 
@@ -235,19 +308,33 @@ public static class Program
 
         Console.WriteLine("\n\n" + advice); //Napisanie porady pod siatką
     }
-    public static int[] ZnajdzKarte(string nazwa, Karta[,] siatka)//ta metoda przeszukuje siatkę, aby znaleźć specyficzną kartę i zwrócić jej pozycję
-    {
-        for (int i = 0; i < siatka.GetLength(0); i++) // Wiersze
+    public static int ZnajdzKarte(string nazwa, Karta[,] siatka, List<Karta> rezerwaOdkryta, Karta[,] kartyGora, out int wiersz, out int kolumna)//ta metoda przeszukuje siatkę, aby znaleźć specyficzną kartę i zwrócić jej pozycję
+    {//0 - karta jest zakryta, 1 - karta znajduje sie w siatce, 2 - karta znajduje się na stosie końcowym, 3 - karta znajduje się w rezerwie
+        wiersz = 0;
+        kolumna = 0;
+        for (wiersz = 0; wiersz < 19; wiersz++) //sprawdzenie siatki
         {
-            for (int j = 0; j < siatka.GetLength(1); j++) // Kolumny
+            for (kolumna = 0; kolumna < 7; kolumna++)
             {
-                if (siatka[i, j].nazwa == nazwa)
+                if (siatka[wiersz, kolumna] != null && siatka[wiersz, kolumna].nazwa == nazwa && siatka[wiersz, kolumna].odkryta)
                 {
-                    return [i, j];
+                    return 1;
                 }
             }
         }
-        return [0, 0];
+        for (int i = 0; i < 4; i++) //sprawdzenie stosów końcowych
+        {
+            if (kartyGora[0, i].nazwa == nazwa)
+            {
+                return 2;
+            }
+        }
+        if (rezerwaOdkryta[0].nazwa == nazwa)//sprawdzenie rezerwy
+        {
+            return 3;
+        }
+
+        return 0;
     }
     public static void printInColor(string Text)
     {

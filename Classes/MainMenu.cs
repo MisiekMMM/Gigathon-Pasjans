@@ -16,7 +16,8 @@ public static class MainMenu  //ta klasa obsługuje menu główne
         Console.InputEncoding = Encoding.UTF8;
 
 
-        switch (AskPreference(["Zagraj", "Ustawienia", "Jak Grać"]))  // zapytanie użytkownika
+        //switch (AskPreference(["Zagraj", "Ustawienia", "Jak Grać"]))  // zapytanie użytkownika
+        switch (1)  //W przypadku debugowania visual studio code nie obsługuje Console.ReadKey();
         {
             case 1:
                 Program.Start();   //Otwarcie głównego programu

@@ -1,9 +1,15 @@
 # zrobić ruchy
-    - Podmienić żeby ruch zwracał bool i miał parametr out
+    - Na stosy końcowe
+    - Z rezerwy
+    - Całych stosów
 
-# Zmienić ui na terminal ui 
+# Poprawić tutorial
+
+# Zmienić ui na terminal ui (opcjonalnie)
  -https://github.com/gui-cs/TerminalGuiDesigner
  -https://github.com/gui-cs/Terminal.Gui?tab=readme-ov-file
+
+# Dodać numerację kolumn
 
 # zrobić ustawienia
     - Kolor w : emotkach/tekście

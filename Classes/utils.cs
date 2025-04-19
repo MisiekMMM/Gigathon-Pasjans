@@ -11,7 +11,7 @@ public static class Utilities
         Console.WriteLine("      ____  _           _ \n| __ )| | __ _  __| |\n|  _ \\|/// _` |/ _` |\n| |_) //| (_| | (_| |\n|____/|_|\\__,_|\\__,_|\n            (_(      \n\n\n");
         Console.WriteLine(" |\\/\\/\\/|  \n |      |  \n |      |  \n | (o)(o)  \n C      _) \n  | ,___|  \n  |   /    \n /____\\    \n/      \\n\n\n");
         Console.ForegroundColor = ConsoleColor.Black;
-        Console.WriteLine("Przez twoją nieuwagę pojawił się błąd!\n");
+        Console.WriteLine($"{title}\n");
         Console.WriteLine(Message);
         Console.WriteLine("\nNaciśnij dowolny guzik aby wyjść");
         Console.WriteLine("\n\n" + ex.Message);

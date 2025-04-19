@@ -12,12 +12,34 @@ public class Karta  //Ta klasa odpowiada karcie w talii
 
     public bool odkryta;
 
+    public int indexKoloru;
+
     public Karta(int number, bool color, string colorSlowny) //colorSlowny to Pik, Karo, Trefl, Kier
     {
         kolor = color;
         numer = number;
         odkryta = false;
 
+        if (colorSlowny == "Kier")
+        {
+            indexKoloru = 0;
+        }
+        else if (colorSlowny == "Karo")
+        {
+            indexKoloru = 1;
+        }
+        else if (colorSlowny == "Trefl")
+        {
+            indexKoloru = 2;
+        }
+        else if (colorSlowny == "Pik")
+        {
+            indexKoloru = 3;
+        }
+        else
+        {
+            indexKoloru = -1;
+        }
         if (number == 11)
         {
             nazwa = $"J {colorSlowny}";

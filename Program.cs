@@ -90,11 +90,7 @@ public static class Program
         {
             Move(ref siatka, ref rezerwaOdkryta, ref rezerwa, ref kartyGora);
         }
-
-
     }
-
-    //zwraca true jeśli gra trwa
     public static void Move(ref Karta[,] siatka, ref List<Karta> rezerwaOdkryta, ref List<Karta> rezerwa, ref Karta[,] kartyGora)
     {
         try
@@ -114,9 +110,12 @@ public static class Program
                         int docelowyWiersz = znajdzOstatniaKarte(kartyGora, docelowaKolumna);
                         bool canIt = CanBeCardPlacedOnMe(siatka[wiersz, kolumna], kartyGora[docelowyWiersz, docelowaKolumna], false);
 
-                        if (canIt)
+                        if (canIt && AmILast(siatka, wiersz, kolumna))
                         {
-                            kartyGora[docelowyWiersz + 1, docelowaKolumna] = siatka[wiersz, kolumna];
+                            if (siatka[wiersz, kolumna].numer != 1)
+                                kartyGora[docelowyWiersz + 1, docelowaKolumna] = siatka[wiersz, kolumna];
+                            else
+                                kartyGora[docelowyWiersz, docelowaKolumna] = siatka[wiersz, kolumna];
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
                             siatka[wiersz, kolumna] = null;
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
@@ -147,15 +146,44 @@ public static class Program
 
                         if (canIt)
                         {
-                            if (siatka[wiersz, kolumna].numer == 13)
-                                siatka[docelowyWiersz, docelowaKolumna] = siatka[wiersz, kolumna];
-                            else
-                                siatka[docelowyWiersz + 1, docelowaKolumna] = siatka[wiersz, kolumna];
+                            if (AmILast(siatka, wiersz, kolumna))
+                            {
+                                if (siatka[wiersz, kolumna].numer == 13)
+                                    siatka[docelowyWiersz, docelowaKolumna] = siatka[wiersz, kolumna];
+                                else
+                                    siatka[docelowyWiersz + 1, docelowaKolumna] = siatka[wiersz, kolumna];
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-                            siatka[wiersz, kolumna] = null;
+                                siatka[wiersz, kolumna] = null;
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
-                            UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                                UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    int indexKarty = wiersz;
+                                    while (siatka[indexKarty, kolumna] != null)
+                                    {
+                                        if (siatka[indexKarty, kolumna].numer == 13)
+                                            siatka[docelowyWiersz, docelowaKolumna] = siatka[indexKarty, kolumna];
+                                        else
+                                            siatka[docelowyWiersz + 1, docelowaKolumna] = siatka[indexKarty, kolumna];
+
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+                                        siatka[indexKarty, kolumna] = null;
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+                                        UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa); // DO USUNIĘCIA!!!
+                                        indexKarty++;
+                                        docelowyWiersz++;
+                                    }
+                                    UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Utilities.Error("Pojawił się błąd podczas przesuwania stosu!", "Niestety muszę to naprawić (linijka 183)", ex);
+                                }
+                            }
                         }
                         else
                         {
@@ -209,8 +237,17 @@ public static class Program
 
                         if (canIt)
                         {
-                            kartyGora[docelowyWiersz + 1, docelowaKolumna] = rezerwaOdkryta[0];
-                            rezerwaOdkryta.RemoveAt(0);
+                            if (rezerwaOdkryta[0].numer != 1)
+                            {
+                                kartyGora[docelowyWiersz + 1, docelowaKolumna] = rezerwaOdkryta[0];
+                                rezerwaOdkryta.RemoveAt(0);
+                            }
+                            else
+                            {
+                                kartyGora[docelowyWiersz, docelowaKolumna] = rezerwaOdkryta[0];
+                                rezerwaOdkryta.RemoveAt(0);
+                            }
+
 
                             UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                         }
@@ -229,21 +266,24 @@ public static class Program
 
                         if (canIt)
                         {
-                            siatka[docelowyWiersz + 1, docelowaKolumna] = rezerwaOdkryta[0];
-                            rezerwa.RemoveAt(0);
+                            if (rezerwaOdkryta[0].numer == 13)
+                                siatka[docelowyWiersz, docelowaKolumna] = rezerwaOdkryta[0];
+                            else
+                                siatka[docelowyWiersz + 1, docelowaKolumna] = rezerwaOdkryta[0];
+                            rezerwaOdkryta.RemoveAt(0);
 
                             UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                         }
                         else
                         {
-                            UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta nie jest jeszcze odkryta");
+                            UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Nie możesz tego zrobić!");
                         }
 
                     }
                 }
                 else if (miejsce == 0)
                 {
-                    UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta nie jest jeszcze odkryta!");
+                    UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Nie możesz tego zrobić!");
                 }
             }
             else if (source == "+")
@@ -279,10 +319,25 @@ public static class Program
 
         return;
     }
+    public static bool AmILast(Karta[,] siatka, int wiersz, int kolumna)
+    {
+        for (int i = wiersz + 1; i < 19; i++)
+        {
+            if (siatka[i, kolumna] != null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     public static bool CanBeCardPlacedOnMe(Karta karta, Karta naMnie, bool czySiatka) //false - na stos końcowy, true - w obrębie siatki
     {
         if (czySiatka)
         {
+            if (karta.numer == 13 && naMnie == null)
+            {
+                return true;
+            }
             if (karta.numer + 1 == naMnie.numer && karta.kolor != naMnie.kolor)
                 return true;
         }
@@ -293,7 +348,7 @@ public static class Program
                 string kolor1 = karta.nazwa.Split(" ")[1];
                 string kolor2 = naMnie.nazwa.Split(" ")[1];
 
-                if (kolor1 == kolor2 && naMnie.numer - 1 == karta.numer)
+                if (kolor1 == kolor2 && naMnie.numer + 1 == karta.numer)
                     return true;
             }
             else
@@ -409,7 +464,8 @@ public static class Program
         }
         else
         {
-            printInColor("Kier");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write($"{"♥",-10}");
         }
         if (gora[0, 1] != null)  //Renderuje fundamenty
         {
@@ -417,7 +473,8 @@ public static class Program
         }
         else
         {
-            printInColor("Karo");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write($"{"♦",-10}");
         }
         if (gora[0, 2] != null)  //Renderuje fundamenty
         {
@@ -425,7 +482,8 @@ public static class Program
         }
         else
         {
-            printInColor("Trefl");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write($"{"♣",-10}");
         }
         if (gora[0, 3] != null)  //Renderuje fundamenty
         {
@@ -433,7 +491,8 @@ public static class Program
         }
         else
         {
-            printInColor("Pik");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write($"{"♠",-10}");
         }
 
 
@@ -502,7 +561,7 @@ public static class Program
         {
             for (kolumna = 0; kolumna < 7; kolumna++)
             {
-                if (siatka[wiersz, kolumna] != null && siatka[wiersz, kolumna].nazwa == nazwa && siatka[wiersz, kolumna].odkryta)
+                if (siatka[wiersz, kolumna] != null && siatka[wiersz, kolumna].nazwa.ToLower() == nazwa.ToLower() && siatka[wiersz, kolumna].odkryta)
                 {
                     return 1;
                 }
@@ -511,12 +570,12 @@ public static class Program
         for (kolumna = 0; kolumna < 4; kolumna++) //sprawdzenie stosów końcowych
         {
             wiersz = znajdzOstatniaKarte(kartyGora, kolumna);
-            if (kartyGora[wiersz, kolumna] != null && kartyGora[wiersz, kolumna].nazwa == nazwa)
+            if (kartyGora[wiersz, kolumna] != null && kartyGora[wiersz, kolumna].nazwa.ToLower() == nazwa.ToLower())
             {
                 return 2;
             }
         }
-        if (rezerwaOdkryta.Count > 0 && rezerwaOdkryta[0].nazwa == nazwa)//sprawdzenie rezerwy
+        if (rezerwaOdkryta.Count > 0 && rezerwaOdkryta[0].nazwa.ToLower() == nazwa.ToLower())//sprawdzenie rezerwy
         {
             return 3;
         }
@@ -558,7 +617,7 @@ public static class Program
     {
         for (int kolumna = 0; kolumna < 7; kolumna++) //kolumny
         {
-            for (int wiersz = 0; wiersz <= kolumna; wiersz++) //wiersze
+            for (int wiersz = 0; wiersz < 19; wiersz++) //wiersze
             {
                 Karta karta = siatka[wiersz, kolumna];
                 if (karta != null)

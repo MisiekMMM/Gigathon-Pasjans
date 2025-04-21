@@ -52,7 +52,7 @@ public static class Program
 
         Karta[,] kartyGora = new Karta[13, 4];  //Tworzenie kart u góry
 
-        UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);   //Renderuje siatkę
+        UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);   //Renderuje siatkę
 
 
         while (true)
@@ -116,11 +116,11 @@ public static class Program
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
                             Debug.Add($"{source}-{destination}");
-                            UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                            UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                         }
                         else
                         {
-                            UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
 
                     }
@@ -154,7 +154,7 @@ public static class Program
 
                                 Debug.Add($"{source}-{destination}");
 
-                                UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                                UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                             }
                             else
                             {
@@ -177,7 +177,7 @@ public static class Program
                                         indexKarty++;
                                         docelowyWiersz++;
                                     }
-                                    UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                                    UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                                 }
                                 catch (Exception ex)
                                 {
@@ -187,7 +187,7 @@ public static class Program
                         }
                         else
                         {
-                            UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
                     }
                 }
@@ -221,11 +221,11 @@ public static class Program
 
                             Debug.Add($"{source}-{destination}");
 
-                            UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                            UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                         }
                         else
                         {
-                            UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
                     }
                 }
@@ -251,11 +251,11 @@ public static class Program
                             }
 
 
-                            UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                            UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                         }
                         else
                         {
-                            UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
 
                     }
@@ -274,18 +274,18 @@ public static class Program
                                 siatka[docelowyWiersz + 1, docelowaKolumna] = rezerwaOdkryta[0];
                             rezerwaOdkryta.RemoveAt(0);
 
-                            UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                            UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                         }
                         else
                         {
-                            UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Nie możesz tego zrobić!");
+                            UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Nie możesz tego zrobić!");
                         }
 
                     }
                 }
                 else if (miejsce == 0)
                 {
-                    UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Nie możesz tego zrobić!");
+                    UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Nie możesz tego zrobić!");
                 }
             }
             else if (source == "+")
@@ -296,7 +296,7 @@ public static class Program
                         rezerwaOdkryta[0].odkryta = false;
                     rezerwaOdkryta.Insert(0, rezerwa[0]);
                     rezerwa.RemoveAt(0);
-                    UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                    UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                 }
                 else
                 {
@@ -305,17 +305,17 @@ public static class Program
                         rezerwa.Add(rezerwaOdkryta[i]);
                         rezerwaOdkryta.RemoveAt(i);
                     }
-                    UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                    UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                 }
             }
             else if (source == "bug")
             {
                 Debug.Save();
-                UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, seed.ToString() + " error.txt zapisany");
+                UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, seed.ToString() + " error.txt zapisany");
             }
             else
             {
-                UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Podano niepoprawny ruch!\nNapisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Podano niepoprawny ruch!\nNapisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
 
             }
         }
@@ -443,129 +443,7 @@ public static class Program
         return true;
     }
 
-    public static void UpdateUi(Karta[,] siatka, List<Karta> rezerwaOdk, Karta[,] gora, List<Karta> rezerwa, string advice = "")  //parametr advice wyświetla się u góry ekranu
-    {//Ta metoda renderuje karty w terminalu 
 
-        string symbolZakryty = "x"; //ustawienie symbolu zakrytej karty. Do zmiany w ustawieniach
-
-        Utilities.Clear();
-
-        Console.ForegroundColor = ConsoleColor.Black; //zmiana koloru na czarny
-
-
-        OdkryjKarty(ref siatka); //odkrywa karty na spodzie stosu
-
-
-        if (rezerwa.Count != 0)//jeżeli pierwsza karta z rezerwy istnieje:
-            Console.Write("x \t", -10); //Drukuje x który udaje rezerwę
-        else
-            Console.Write("          ");
-
-        if (rezerwaOdk.Count != 0)  //jeżeli pierwsza karta z odkrytej rezerwy istnieje:
-            printInColor(rezerwaOdk[0].nazwa);    //drukuje nazwę
-        else
-            Console.Write("          ");
-
-        Console.Write("\t\t");
-
-
-
-
-        if (gora[0, 0] != null)  //Renderuje fundamenty
-        {
-            printInColor(gora[znajdzOstatniaKarte(gora, 0), 0].nazwa);
-        }
-        else
-        {
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write($"{"♥",-10}");
-        }
-        if (gora[0, 1] != null)  //Renderuje fundamenty
-        {
-            printInColor(gora[znajdzOstatniaKarte(gora, 1), 1].nazwa);
-        }
-        else
-        {
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write($"{"♦",-10}");
-        }
-        if (gora[0, 2] != null)  //Renderuje fundamenty
-        {
-            printInColor(gora[znajdzOstatniaKarte(gora, 2), 2].nazwa);
-        }
-        else
-        {
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write($"{"♣",-10}");
-        }
-        if (gora[0, 3] != null)  //Renderuje fundamenty
-        {
-            printInColor(gora[znajdzOstatniaKarte(gora, 3), 3].nazwa);
-        }
-        else
-        {
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write($"{"♠",-10}");
-        }
-
-
-        Console.Write("\n\n");
-
-        for (int i = 0; i < 7; i++)
-        {
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write($"{i,-10}");
-        }
-        Console.Write("\n");
-        for (int i = 0; i < 7; i++)
-        {
-            for (int j = 0; j < 10; j++)
-            {
-                Console.Write("-");
-            }
-        }
-        Console.ForegroundColor = ConsoleColor.Black;
-        Console.Write("\n");
-        try
-        {
-            for (int wiersz = 0; wiersz < 19; wiersz++)
-            {
-                for (int kolumna = 0; kolumna < 7; kolumna++)
-                {
-                    Karta karta = siatka[wiersz, kolumna];
-
-                    if (karta != null)
-                    {
-                        if (karta.odkryta)
-                        {
-                            printInColor(karta.nazwa);
-                        }
-                        else
-                        {
-                            Console.Write($"{symbolZakryty,-10}");
-                        }
-
-                    }
-                    else
-                    {
-                        Console.Write("          ");
-                    }
-                }
-                if (!areAllEmpty(siatka, wiersz))
-                {
-                    Console.WriteLine();
-                }
-            }
-
-
-        }
-        catch (Exception ex)
-        {
-            Utilities.Blad("Błąd podczas renderowania siatki!", "Spróbuj zrestartować grę!", ex);
-        }
-
-        Console.WriteLine("\n\n" + advice); //Napisanie porady pod siatką
-    }
     public static int ZnajdzKarte(string nazwa, Karta[,] siatka, List<Karta> rezerwaOdkryta, Karta[,] kartyGora, out int wiersz, out int kolumna)//ta metoda przeszukuje siatkę, aby znaleźć specyficzną kartę i zwrócić jej pozycję
     {//0 - karta jest zakryta, 1 - karta znajduje sie w siatce, 2 - karta znajduje się na stosie końcowym, 3 - karta znajduje się w rezerwie
         wiersz = 0;
@@ -595,56 +473,8 @@ public static class Program
 
         return 0;
     }
-    public static void printInColor(string Text)
-    {
-        if (Text.Contains("Karo") || Text.Contains("Kier"))//Kier i karo 
-        {
-            Console.ForegroundColor = ConsoleColor.Red; // ustawianie na czerwony kolor
-            Console.Write($"{Text.Replace("Karo", "♦").Replace("Kier", "♥"),-10}"); //Zamiana słownego koloru na emotkę
-            Console.ForegroundColor = ConsoleColor.Black; //Zmiana koloru ponownie na czarny
-        }
-        else if (Text.Contains("Pik") || Text.Contains("Trefl"))//Pik i trefl
-        {
-            Console.ForegroundColor = ConsoleColor.Black;//Zmiana koloru na czarny (na wszelki wypadek)
-            Console.Write($"{Text.Replace("Pik", "♠").Replace("Trefl", "♣"),-10}"); //Zamiana słownego koloru na emotkę
 
-        }
-        else
-        {//Obsługa błędu
-            throw new Exception("Nieznany kolor!");
-        }
-    }
-    public static bool areAllEmpty(Karta[,] siatka, int i)// ta metoda sprawdza, czy wszystkie karty w poniższy
-    {
-        bool areAllEmpty = true;
-        for (int i2 = 0; i2 < 7; i2++)
-        {
-            if (i + 1 < siatka.GetLength(0) && siatka[i + 1, i2] != null) //Jeżeli index nie wychodzi poza tablicę i karta pod nie jest nullem:
-            {
-                return false; //zwracamy false
-            }
-        }
-        return areAllEmpty;
-    }
-    public static void OdkryjKarty(ref Karta[,] siatka)//ta metoda odkrywa karty na końcu każdej kolumny
-    {
-        for (int kolumna = 0; kolumna < 7; kolumna++) //kolumny
-        {
-            for (int wiersz = 0; wiersz < 19; wiersz++) //wiersze
-            {
-                Karta karta = siatka[wiersz, kolumna];
-                if (karta != null)
-                {
-                    if (wiersz + 1 < siatka.GetLength(0) && siatka[wiersz + 1, kolumna] == null) // jeżeli karta poniżej nie wychodzi za index tablicy i jest pusta:
-                    {
-                        siatka[wiersz, kolumna].odkryta = true;  //Karta zostaje odkrtyta
-                    }
-                }
 
-            }
-        }
-
-    }
     public static Karta[,] ZrobSiatke(List<Karta> kartas, out List<Karta> rezerwa)
     {
         Karta[,] siatka = new Karta[19, 7]; // 7 kolumn, 19 wierszy (maksymalna wysokość)

@@ -8,16 +8,22 @@ using System.Text;
 
 namespace Pasjans;
 
-public static class MainMenu  //ta klasa obsługuje menu główne
+/// <summary>
+/// ta klasa obsługuje menu główne
+/// </summary>
+public static class MainMenu
 {
+    /// <summary>
+    /// Otwiera interfejs menu głównego w terminalu
+    /// </summary>
     public static void Otworz()
     {
         Console.OutputEncoding = Encoding.UTF8; //Obsługa emotek ♦♣♥♠
         Console.InputEncoding = Encoding.UTF8;
 
 
-        //switch (AskPreference(["Zagraj", "Ustawienia", "Jak Grać"]))  // zapytanie użytkownika
-        switch (1)  //W przypadku debugowania visual studio code nie obsługuje Console.ReadKey();
+        switch (Zapytaj(["Zagraj", "Ustawienia", "Jak Grać"]))  // zapytanie użytkownika
+        //switch (1)  //W przypadku debugowania visual studio code nie obsługuje Console.ReadKey();
         {
             case 1:
                 Program.Start();   //Otwarcie głównego programu
@@ -32,7 +38,12 @@ public static class MainMenu  //ta klasa obsługuje menu główne
                 break;
         }
     }
-    public static int AskPreference(params List<string> options) //ta metoda zadaje pytanie
+    /// <summary>
+    /// Uzyskuje od użytkownika index odpowiedzi za pomocą wyświetlenia opcji
+    /// </summary>
+    /// <param name="options">Lista opcji</param>
+    /// <returns></returns>
+    private static int Zapytaj(params List<string> options) //ta metoda zadaje pytanie
     {
         Utilities.Clear(); //Czyszczenie konsoli
 
@@ -52,6 +63,6 @@ public static class MainMenu  //ta klasa obsługuje menu główne
             return result;
         }
 
-        return AskPreference(options); //zwracamy numer odpowiedzi
+        return Zapytaj(options); //zwracamy numer odpowiedzi
     }
 }

@@ -15,10 +15,7 @@ namespace Pasjans;
 
 public static class Program
 {
-    static IWavePlayer? waveOut; //Muzyka
-    static AudioFileReader? audioFile;  //plik muzyki
-    static Thread? playbackThread;   // osobny wątek
-    static bool isPlaying = true;
+    private static int seed;
     public static void Main()
     {
         Console.OutputEncoding = Encoding.UTF8; //Obsługa emotek ♦♣♥♠
@@ -29,16 +26,9 @@ public static class Program
 
         Ustawienia.wartosci = Ustawienia.Wczytaj(Ustawienia.wartosci!);
 
-        string filePath = "music.wav";
-
-        playbackThread = new Thread(() => PlayLoop(filePath));
-        playbackThread.IsBackground = true;
-        playbackThread.Start();
+        Music.StartMusic();
 
         MainMenu.Otworz(); //Otwiera menu główne
-
-
-
     }
     public static void Start()//Metoda wywoływana na początku. 
     {
@@ -52,7 +42,27 @@ public static class Program
 
 
 
-        List<Karta> talia = new List<Karta>();
+        List<Karta> talia = GenerujTalie();
+
+        talia = Tasuj(talia, false); //Tasowanie talii
+
+        Karta[,] siatka = ZrobSiatke(talia, out List<Karta> rezerwa); //Tworzy siatkę
+
+        List<Karta> rezerwaOdkryta = new(); //Tworzenie listy z odkrytą rezerwą
+
+        Karta[,] kartyGora = new Karta[13, 4];  //Tworzenie kart u góry
+
+        UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);   //Renderuje siatkę
+
+
+        while (true)
+        {
+            Move(ref siatka, ref rezerwaOdkryta, ref rezerwa, ref kartyGora);
+        }
+    }
+    private static List<Karta> GenerujTalie()
+    {
+        List<Karta> talia = new();
         //Tworzenie talii kart w Liście
         for (int i = 1; i < 14; i++)
         {
@@ -74,22 +84,7 @@ public static class Program
             talia.Add(new Karta(i, false, "Trefl"));
 
         }
-
-        talia = Tasuj(talia); //Tasowanie talii
-
-        Karta[,] siatka = ZrobSiatke(talia, out List<Karta> rezerwa); //Tworzy siatkę
-
-        List<Karta> rezerwaOdkryta = new(); //Tworzenie listy z odkrytą rezerwą
-
-        Karta[,] kartyGora = new Karta[13, 4];  //Tworzenie kart u góry
-
-        UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);   //Renderuje siatkę
-
-
-        while (true)
-        {
-            Move(ref siatka, ref rezerwaOdkryta, ref rezerwa, ref kartyGora);
-        }
+        return talia;
     }
     public static void Move(ref Karta[,] siatka, ref List<Karta> rezerwaOdkryta, ref List<Karta> rezerwa, ref Karta[,] kartyGora)
     {
@@ -120,6 +115,7 @@ public static class Program
                             siatka[wiersz, kolumna] = null;
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
+                            Debug.Add($"{source}-{destination}");
                             UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                         }
                         else
@@ -156,6 +152,8 @@ public static class Program
                                 siatka[wiersz, kolumna] = null;
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
+                                Debug.Add($"{source}-{destination}");
+
                                 UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                             }
                             else
@@ -173,7 +171,9 @@ public static class Program
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
                                         siatka[indexKarty, kolumna] = null;
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
-                                        UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa); // DO USUNIĘCIA!!!
+
+                                        Debug.Add($"{source}-{destination}");
+
                                         indexKarty++;
                                         docelowyWiersz++;
                                     }
@@ -181,7 +181,7 @@ public static class Program
                                 }
                                 catch (Exception ex)
                                 {
-                                    Utilities.Error("Pojawił się błąd podczas przesuwania stosu!", "Niestety muszę to naprawić (linijka 183)", ex);
+                                    Utilities.Blad("Pojawił się błąd podczas przesuwania stosu!", "Niestety muszę to naprawić (linijka 183)", ex);
                                 }
                             }
                         }
@@ -218,6 +218,8 @@ public static class Program
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
                             kartyGora[wiersz, kolumna] = null;
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+
+                            Debug.Add($"{source}-{destination}");
 
                             UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                         }
@@ -306,6 +308,11 @@ public static class Program
                     UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
                 }
             }
+            else if (source == "bug")
+            {
+                Debug.Save();
+                UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, seed.ToString() + " error.txt zapisany");
+            }
             else
             {
                 UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Podano niepoprawny ruch!\nNapisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
@@ -314,7 +321,7 @@ public static class Program
         }
         catch (Exception ex)
         {
-            Utilities.Error("Coś się stało, ale nie wiem co!", "Przeczytaj instrukcję w menu Jak Grać", ex);
+            Utilities.Blad("Coś się stało, ale nie wiem co!", "Przeczytaj instrukcję w menu Jak Grać", ex);
         }
 
         return;
@@ -388,6 +395,12 @@ public static class Program
                 MainMenu.Otworz();
                 return false;
             }
+            else if (ruch.ToLower() == "bug")
+            {
+                source = "bug";
+                destination = "bug";
+                return false;
+            }
             else if (ruch == "+")
             {
                 source = "+";
@@ -421,7 +434,7 @@ public static class Program
         }
         catch (Exception ex)
         {
-            Utilities.Error("Wystąpił błąd w metodzie AskMove!", "Przeczytaj instrukcję obsługi w menu Jak Grać!", ex);
+            Utilities.Blad("Wystąpił błąd w metodzie AskMove!", "Przeczytaj instrukcję obsługi w menu Jak Grać!", ex);
         }
 
 
@@ -548,7 +561,7 @@ public static class Program
         }
         catch (Exception ex)
         {
-            Utilities.Error("Błąd podczas renderowania siatki!", "Spróbuj zrestartować grę!", ex);
+            Utilities.Blad("Błąd podczas renderowania siatki!", "Spróbuj zrestartować grę!", ex);
         }
 
         Console.WriteLine("\n\n" + advice); //Napisanie porady pod siatką
@@ -655,10 +668,22 @@ public static class Program
         return siatka;
     }
 
-    static public List<Karta> Tasuj(List<Karta> kartas)
+    static public List<Karta> Tasuj(List<Karta> kartas, bool czySeed, int sed = 0)
     {
         Random rnd = new Random();
-        List<Karta> shuffled = new List<Karta>(kartas);
+
+        if (czySeed)
+        {
+            seed = sed;
+        }
+        else
+        {
+            seed = rnd.Next(int.MinValue, int.MaxValue);
+        }
+
+        Debug.seed = seed;
+        rnd = new(seed);
+        List<Karta> shuffled = kartas;
         int n = shuffled.Count;
 
         // Fisher-Yates
@@ -672,34 +697,5 @@ public static class Program
         }
 
         return shuffled;
-    }
-    static void PlayLoop(string filePath)
-    {
-
-        waveOut = new WaveOutEvent();
-        audioFile = new AudioFileReader(filePath);
-        waveOut.Init(audioFile);
-        waveOut.PlaybackStopped += OnPlaybackStopped!;
-        waveOut.Volume = (float)(int)Ustawienia.wartosci!["Głośność"] / 100f;
-        waveOut.Play();
-
-
-
-        // Keep thread alive while playing
-        while (isPlaying)
-        {
-            waveOut.Volume = (float)(int)Ustawienia.wartosci!["Głośność"] / 100f;
-
-            Thread.Sleep(100); // Small delay to reduce CPU usage
-        }
-    }
-
-    static void OnPlaybackStopped(object sender, StoppedEventArgs e)
-    {
-        if (isPlaying)
-        {
-            audioFile!.Position = 0;
-            waveOut!.Play();
-        }
     }
 }

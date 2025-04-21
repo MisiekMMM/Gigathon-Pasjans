@@ -4,19 +4,27 @@ using Microsoft.Win32.SafeHandles;
 
 namespace Pasjans;
 
+/// <summary>
+/// Odpowiada za ustawienia
+/// </summary>
 public static class Ustawienia
 {
     public static Dictionary<string, object>? wartosci;
-    public static List<string>? ustawienia;
+    private static List<string>? ustawienia;
+
+    /// <summary>
+    /// Otwiera interfejs ustawień
+    /// </summary>
     public static void Otworz()
     {
         try
         {
             Utilities.Clear();
 
-            ustawienia = new() { "Głośność" };
+            ustawienia = new() { "Głośność", "Emotki" };
             wartosci = new();
             wartosci.Add("Głośność", 100);
+            wartosci.Add("Emotki", true);
 
             wartosci = Wczytaj(wartosci);
 
@@ -65,10 +73,16 @@ public static class Ustawienia
         }
         catch (Exception ex)
         {
-            Utilities.Error("Podczas otwierania ustawień pojawił się błąd!", "Pamiętaj, aby używać programu ostrożnie i w sposób, który go nie uszodzi!", ex);
+            Utilities.Blad("Podczas otwierania ustawień pojawił się błąd!", "Pamiętaj, aby używać programu ostrożnie i w sposób, który go nie uszodzi!", ex);
         }
 
     }
+    /// <summary>
+    /// Wyświetla wszystkie elementy listy
+    /// </summary>
+    /// <param name="lista">Lista do wydrukowania</param>
+    /// <param name="numer">index, który zostanie podświetlony</param>
+    /// <param name="wartosci">Tablica wartości wyświetlona obok jej nazwy</param>
     public static void WydrukujListe(List<string> lista, int numer, Dictionary<string, object> wartosci)
     {
         for (int i = 0; i < lista.Count; i++)
@@ -81,11 +95,17 @@ public static class Ustawienia
             Console.ForegroundColor = ConsoleColor.Black;
         }
     }
+    /// <summary>
+    /// Wczytuje ustawienia z pliku do słownika
+    /// </summary>
+    /// <param name="dict">słownik</param>
+    /// <returns>Słownik z wczytanymi ustawieniami</returns>
     public static Dictionary<string, object> Wczytaj(Dictionary<string, object> dict)
     {
-        ustawienia = new() { "Głośność" };
+        ustawienia = new() { "Głośność", "Emotki" };
         wartosci = new();
         wartosci.Add("Głośność", 100);
+        wartosci.Add("Emotki", true);
         string[] lines = File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, @"ustawienia"));
 
         Dictionary<string, object> pairs = new();
@@ -119,6 +139,11 @@ public static class Ustawienia
 
         return pairs;
     }
+    /// <summary>
+    /// Zapisanie 
+    /// </summary>
+    /// <param name="dict">Słownik z wartościami</param>
+    /// <param name="opcje">Nazwy</param>
     public static void Zapisz(Dictionary<string, object> dict, List<string> opcje)
     {
         string filePath = Path.Combine(Environment.CurrentDirectory, @"ustawienia");

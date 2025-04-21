@@ -8,6 +8,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>Pasjans</AssemblyName>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    
   </PropertyGroup>
 
   <ItemGroup>

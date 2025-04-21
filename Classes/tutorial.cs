@@ -2,18 +2,22 @@ using System;
 
 namespace Pasjans;
 
+/// <summary>
+/// Odpowiada za menu jak grać 
+/// </summary>
 public static class Tutorial
 {
+    /// <summary>
+    /// Otwiera menu jak grać
+    /// </summary>
     public static void Otworz()
     {
         List<string> strony = new()
         {
-            "Przenoszenie kart w kolumnach: \n● Można przesuwać karty, które są ułożone w kolejności malejącej (K → Q → J \\... 2 → A). \n● Karty muszą być układane naprzemiennie kolorami \n(czarna-czerwona-czarna-czerwona). \n● Można przenosić pojedynczą kartę lub całą sekwencję poprawnie ułożonych kart.",
-            "Poprawny sposób zapisu ruchu: \n● Należy napisać kartę w formacie numer-kolor dla karty źródła i karty celu bądź Pik/Karo/Kier/Trefl dla układania na stosie końcowym\n● Między kartami źródła i celu należy umieścic słowo \"do\" \n●np. Q-trefl do trefl",
-            "Przenoszenie kart na stosy końcowe:\n● Karty można przenieść na stosy końcowe tylko w kolejności od asa do króla,np.:\n\t○ A♠ → 2♠ → 3♠ → ... → K♠\n\t○ A♥ → 2♥ → 3♥ → ... → K♥\n● Każdy stos końcowy może zawierać tylko jeden kolor.",
-            "Odkrywanie zakrytych kart:\n● Gdy przeniesiesz ostatnią odkrytą kartę z kolumny, zakryta karta pod nią\nzostaje odkryta.\n● Jeśli kolumna stanie się pusta, można w jej miejsce przenieść tylko króla (K)\nlub całą sekwencję kart zaczynającą się od króla.",
-            "Dobieranie kart ze stosu rezerwowego:● Można dobierać karty ze stosu:\n\t○ Na raz dobiera się jedną kartę.\n\t○ Jeśli stos dobierania się wyczerpie, należy go przetasować i ponownie\nużyć.",
-            "Zakończenie gry\n● Po ułożeniu wszystkich kart na stosach końcowych."
+            "Cel gry: \n● Ułożyć wszystkie karty w czterech kolorach (♠ ♥ ♦ ♣) od asa do króla na stosach końcowych",
+            "Rozgrywka: \n●Karty są rozłożone w 7 kolumnach: od 1 do 7 kart, tylko ostatnia karta w kolumnie odkryta.\n●Pozostałe karty tworzą rezerwę.\n●Karty można układać malejąco i naprzemiennie kolorami w kolumnach (np. czarna 7 na czerwoną 8).\n●Tylko król może być przeniesiony na pustą kolumnę.\n●Asy przenosi się na stosy końcowe i buduje kolory rosnąco (A, 2, 3, ..., K).\n●Z talii dobierania można przeglądać karty i przenosić je do kolumn lub na stosy końcowe.",
+            "● Aby poruszać kartą między stosami należy napisać jej nazwę myślnik (-) i numer kolumny, np. Q Kier-1. Brana pod uwagę jest wielkość liter i odstępy\n● Aby przenieść kartę na stos końcowy wystarczy podać jej nazwę, np. As Pik\n● Aby odkryć nową kartę z rezerwy należy napisać +",
+            "Wygrana:\n● Gra kończy się, gdy wszystkie cztery kolory zostaną ułożone na stosach końcowych od asa do króla."
         };
 
         int numerStrony = 0;

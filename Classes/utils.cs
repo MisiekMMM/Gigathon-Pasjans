@@ -4,7 +4,13 @@ namespace Pasjans;
 
 public static class Utilities
 {
-    public static void Error(string title, string Message, Exception ex)
+    /// <summary>
+    /// Błąd
+    /// </summary>
+    /// <param name="title">wyświetlany tytuł</param>
+    /// <param name="Message">wyświetlane ciało wiadomości</param>
+    /// <param name="ex">wyjątek</param>
+    public static void Blad(string title, string Message, Exception ex)
     {
         Clear();
         Console.ForegroundColor = ConsoleColor.Red;
@@ -18,8 +24,11 @@ public static class Utilities
         Console.ReadKey();
         Environment.Exit(100);
     }
+    /// <summary>
+    /// Wyczyszczenie konsoli. Podczas debugowania zakomentować
+    /// </summary>
     public static void Clear()
     {
-        //Console.Clear();
+        Console.Clear();
     }
 }

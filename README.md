@@ -29,3 +29,5 @@ Aby przenieść kartę na stos końcowy wystarczy podać jej nazwę, np. As Pik
 Aby odkryć nową kartę z rezerwy należy napisać +
 
 # Wygrana: Gra kończy się, gdy wszystkie cztery kolory zostaną ułożone na stosach końcowych od asa do króla.
+
+ - Jeżeli znajdziesz błąd wpisz "bug". To powinno zapisać seed i historię ruchów w pliku error.txt

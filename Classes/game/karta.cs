@@ -84,4 +84,37 @@ public class Karta
             nazwa = $"{number.ToString()} {colorSlowny}";
         }
     }
+    public static bool CzyKartaPasuje(Karta karta, Karta naMnie, bool czySiatka) //false - na stos końcowy, true - w obrębie siatki
+    {
+        if (czySiatka)
+        {
+            if (karta.numer == 13 && naMnie == null)
+            {
+                return true;
+            }
+            if (karta.numer + 1 == naMnie.numer && karta.kolor != naMnie.kolor)
+                return true;
+        }
+        else
+        {
+            if (naMnie != null)
+            {
+                string kolor1 = karta.nazwa.Split(" ")[1];
+                string kolor2 = naMnie.nazwa.Split(" ")[1];
+
+                if (kolor1 == kolor2 && naMnie.numer + 1 == karta.numer)
+                    return true;
+            }
+            else
+            {
+                if (naMnie == null && karta.numer == 1)
+                {
+                    return true;
+                }
+            }
+        }
+
+
+        return false;
+    }
 }

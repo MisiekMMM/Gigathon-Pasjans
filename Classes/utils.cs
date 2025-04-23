@@ -19,7 +19,8 @@ public static class Utilities
         Console.ForegroundColor = ConsoleColor.Black;
         Console.WriteLine($"{title}\n");
         Console.WriteLine(Message);
-        Console.WriteLine("\nNaciśnij dowolny guzik aby wyjść");
+        Debug.Zapisz();
+        Console.WriteLine("\nZapisano plik error.txt\nNaciśnij dowolny guzik aby wyjść");
         Console.WriteLine("\n\n" + ex.Message);
         Console.ReadKey();
         Environment.Exit(100);
@@ -30,5 +31,11 @@ public static class Utilities
     public static void Clear()
     {
         Console.Clear();
+    }
+    public static void DrukujLinie()
+    {
+        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.WriteLine("--------------------------------------------------------------------------------------------");
+        Console.ForegroundColor = ConsoleColor.Black;
     }
 }

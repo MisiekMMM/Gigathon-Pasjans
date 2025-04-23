@@ -4,5 +4,3 @@
  -https://github.com/gui-cs/Terminal.Gui?tab=readme-ov-file
 
 # komentarze dla całej klasy
-
-# Dodać seed

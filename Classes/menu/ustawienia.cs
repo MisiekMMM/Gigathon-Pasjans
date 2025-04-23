@@ -35,7 +35,8 @@ public static class Ustawienia
                 Utilities.Clear();
                 Console.WriteLine(" _   _     _                 _            _       \n| | | |___| |_ __ ___      _(_) ___ _ __ (_) __ _ \n| | | / __| __/ _` \\ \\ /\\ / / |/ _ \\ '_ \\| |/ _` |\n| |_| \\__ \\ || (_| |\\ V  V /| |  __/ | | | | (_| |\n \\___/|___/\\__\\__,_| \\_/\\_/ |_|\\___|_| |_|_|\\__,_|\n\n\n");
                 WydrukujListe(ustawienia, numerSwiatla, wartosci);
-                Console.WriteLine("\nNawiguj strzałkami, wciśnij X aby wyjść");
+                Utilities.DrukujLinie();
+                Console.WriteLine("\nUżywaj strzałki w górę i w dół aby poruszać się po ustawieniach, wciśnij X aby wrócić do menu głównego");
                 ConsoleKeyInfo CKI = Console.ReadKey(true);
                 if (CKI.Key == ConsoleKey.DownArrow && numerSwiatla + 1 < ustawienia.Count)
                 {

@@ -37,14 +37,14 @@ public static class UI
 
 
         if (rezerwa.Count != 0)//jeżeli pierwsza karta z rezerwy istnieje:
-            Console.Write("x \t", -10); //Drukuje x który udaje rezerwę
+            Console.Write("     +     "); //Drukuje + który udaje rezerwę
         else
             Console.Write("          ");
 
         if (rezerwaOdk.Count != 0)  //jeżeli pierwsza karta z odkrytej rezerwy istnieje:
             printInColor(rezerwaOdk[0].nazwa);    //drukuje nazwę
         else
-            Console.Write("          ");
+            Console.Write("          ");    //Pusta przestrzeń
 
         Console.Write("\t\t");
 

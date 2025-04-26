@@ -8,6 +8,9 @@ namespace Pasjans;
 /// </summary>
 public class Karta
 {
+    /// <summary>
+    /// nazwa karty
+    /// </summary>
     public string nazwa { get; }
 
     /// <summary>
@@ -32,7 +35,7 @@ public class Karta
     /// Konstruktor klasy karta
     /// </summary>
     /// <param name="number">Numer karty (od 1 do 13)</param>
-    /// <param name="color">Kolor</param>
+    /// <param name="color">true - czerwony, false - czarny</param>
     /// <param name="colorSlowny">pik, karo, kier, trefl</param>
     public Karta(int number, bool color, string colorSlowny) //colorSlowny to Pik, Karo, Trefl, Kier
     {
@@ -84,6 +87,13 @@ public class Karta
             nazwa = $"{number.ToString()} {colorSlowny}";
         }
     }
+    /// <summary>
+    /// Sprawdza legalność ruchu
+    /// </summary>
+    /// <param name="karta">Karta sprawdzana</param>
+    /// <param name="naMnie">Karta, na której ma być ustawiona druga karta</param>
+    /// <param name="czySiatka">true - Karta naMnie znajduje się w siatce, false - karta naMnie znajduje się w siatce</param>
+    /// <returns></returns>
     public static bool CzyKartaPasuje(Karta karta, Karta naMnie, bool czySiatka) //false - na stos końcowy, true - w obrębie siatki
     {
         if (czySiatka)

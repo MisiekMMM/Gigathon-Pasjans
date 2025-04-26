@@ -2,8 +2,17 @@ using System;
 
 namespace Pasjans;
 
+/// <summary>
+/// Odpowiada za tworzenie siatki i przeszukiwanie jej
+/// </summary>
 public static class Siatka
 {
+    /// <summary>
+    /// Wytwarza siatkę z potasowanej talii
+    /// </summary>
+    /// <param name="kartas">talia</param>
+    /// <param name="rezerwa">Oddaje rezerwę kart</param>
+    /// <returns>Zwraca siatkę kart</returns>
     public static Karta[,] ZrobSiatke(List<Karta> kartas, out List<Karta> rezerwa)
     {
         Karta[,] siatka = new Karta[19, 7]; // 7 kolumn, 19 wierszy (maksymalna wysokość)
@@ -26,6 +35,12 @@ public static class Siatka
 
         return siatka;
     }
+    /// <summary>
+    /// Sprawdza czy karta jest ostatnie w kolumnie
+    /// </summary>
+    /// <param name="siatka">siatka kart</param>
+    /// <param name="wiersz">wiersz danej karty</param>
+    /// <param name="kolumna">kolumna danej karty</param>
     public static bool CzyOstatni(Karta[,] siatka, int wiersz, int kolumna)
     {
         for (int i = wiersz + 1; i < 19; i++)
@@ -37,8 +52,18 @@ public static class Siatka
         }
         return true;
     }
+    /// <summary>
+    /// Znajduje kartę o danej nazwie
+    /// </summary>
+    /// <param name="nazwa">Nazwa karty</param>
+    /// <param name="siatka">Siatka</param>
+    /// <param name="rezerwaOdkryta">Rezerwa odkryta</param>
+    /// <param name="kartyGora">Stosy końcowe</param>
+    /// <param name="wiersz">Oddahe wiersz, w którym znajduje się karta</param>
+    /// <param name="kolumna">Oddaje kolumnę, w której znajduje się karta</param>
+    /// <returns>0 - karta jest zakryta, 1 - karta znajduje sie w siatce, 2 - karta znajduje się na stosie końcowym, 3 - karta znajduje się w rezerwie</returns>
     public static int ZnajdzKarte(string nazwa, Karta[,] siatka, List<Karta> rezerwaOdkryta, Karta[,] kartyGora, out int wiersz, out int kolumna)//ta metoda przeszukuje siatkę, aby znaleźć specyficzną kartę i zwrócić jej pozycję
-    {//0 - karta jest zakryta, 1 - karta znajduje sie w siatce, 2 - karta znajduje się na stosie końcowym, 3 - karta znajduje się w rezerwie
+    {
         wiersz = 0;
         kolumna = 0;
         for (wiersz = 0; wiersz < 19; wiersz++) //sprawdzenie siatki
@@ -66,6 +91,12 @@ public static class Siatka
 
         return 0;
     }
+    /// <summary>
+    /// Znajduje ostatnią kartę w kolumnie
+    /// </summary>
+    /// <param name="siatka">Siatka</param>
+    /// <param name="kolumna">Kolumna</param>
+    /// <returns>Wiersz siatki</returns>
     public static int znajdzOstatniaKarte(Karta[,] siatka, int kolumna)
     {
         for (int i = 0; i < siatka.GetLength(0); i++)

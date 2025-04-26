@@ -2,6 +2,9 @@ using System;
 
 namespace Pasjans;
 
+/// <summary>
+/// Odpowiada za tworzenie i tasowanie talii
+/// </summary>
 public static class Talia
 {
     /// <summary>

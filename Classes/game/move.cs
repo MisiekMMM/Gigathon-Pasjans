@@ -1,5 +1,8 @@
 namespace Pasjans;
 
+/// <summary>
+/// Odpowiada za wykonywanie ruchów
+/// </summary>
 public static class Ruch
 {
     /// <summary>

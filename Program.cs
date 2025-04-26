@@ -1,9 +1,10 @@
-﻿using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text;
 
 namespace Pasjans;
 
+/// <summary>
+/// Główna klasa
+/// </summary>
 public static class Program
 {
     /// <summary>
@@ -14,7 +15,7 @@ public static class Program
         Console.OutputEncoding = Encoding.UTF8; //Obsługa emotek ♦♣♥♠
         Console.InputEncoding = Encoding.UTF8;
 
-        Console.BackgroundColor = ConsoleColor.White; //Zmaina koloru tła na biały
+        Console.BackgroundColor = ConsoleColor.White; //Zmiana koloru tła na biały
         Console.ForegroundColor = ConsoleColor.Black;
 
         Music.StartMusic();
@@ -67,6 +68,12 @@ public static class Program
 
         MainMenu.Otworz();
     }
+    /// <summary>
+    /// Metoda sprawdzająca wygraną
+    /// </summary>
+    /// <param name="siatka"></param>
+    /// <param name="kartyGora"></param>
+    /// <returns>true - wygrana, false - gra wciąż trwa</returns>
     private static bool sprawdzWygrana(Karta[,] siatka, Karta[,] kartyGora)
     {
         foreach (Karta karta in siatka)

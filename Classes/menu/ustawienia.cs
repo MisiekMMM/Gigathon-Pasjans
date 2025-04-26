@@ -141,7 +141,7 @@ public static class Ustawienia
         return pairs;
     }
     /// <summary>
-    /// Zapisanie 
+    /// Zapisanie ustawien do pliku
     /// </summary>
     /// <param name="dict">Słownik z wartościami</param>
     /// <param name="opcje">Nazwy</param>

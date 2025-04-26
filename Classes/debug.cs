@@ -8,6 +8,9 @@ namespace Pasjans;
 /// </summary>
 public static class Debug
 {
+    /// <summary>
+    /// Historia ruchów zapisywana aby uniknąć błędów
+    /// </summary>
     public static List<string>? historia { get; set; }
     public static int seed = 0;
 
@@ -26,6 +29,9 @@ public static class Debug
     {
         historia = new();
     }
+    /// <summary>
+    /// Zapisuje historię do pliku
+    /// </summary>
     public static void Zapisz()
     {
         string filePath = Path.Combine(Environment.CurrentDirectory, @"error.txt");

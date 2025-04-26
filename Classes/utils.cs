@@ -2,6 +2,9 @@ using System;
 
 namespace Pasjans;
 
+/// <summary>
+/// Ta klasa odpowiada za metody takie jak Clear czy Error
+/// </summary>
 public static class Utilities
 {
     /// <summary>
@@ -32,6 +35,9 @@ public static class Utilities
     {
         Console.Clear();
     }
+    /// <summary>
+    /// Drukuje prostą linie
+    /// </summary>
     public static void DrukujLinie()
     {
         Console.ForegroundColor = ConsoleColor.Gray;

@@ -58,4 +58,4 @@ Gra kończy się, gdy wszystkie cztery kolory zostaną ułożone na stosach koń
 
 
 ---
-#### Wszystkie opisy klas i metod są zawarte w kodzie jako komentarze w tagach summarry
+#### Wszystkie opisy klas i metod są zawarte w kodzie jako komentarze w tagach summary

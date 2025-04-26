@@ -94,30 +94,30 @@ public class Karta
     /// <param name="naMnie">Karta, na której ma być ustawiona druga karta</param>
     /// <param name="czySiatka">true - Karta naMnie znajduje się w siatce, false - karta naMnie znajduje się w siatce</param>
     /// <returns></returns>
-    public static bool CzyKartaPasuje(Karta karta, Karta naMnie, bool czySiatka) //false - na stos końcowy, true - w obrębie siatki
+    public bool CzyKartaPasuje(Karta naMnie, bool czySiatka) //false - na stos końcowy, true - w obrębie siatki
     {
         if (czySiatka)
         {
-            if (karta.numer == 13 && naMnie == null)
+            if (this.numer == 13 && naMnie == null)
             {
                 return true;
             }
-            if (karta.numer + 1 == naMnie.numer && karta.kolor != naMnie.kolor)
+            if (this.numer + 1 == naMnie.numer && this.kolor != naMnie.kolor)
                 return true;
         }
         else
         {
             if (naMnie != null)
             {
-                string kolor1 = karta.nazwa.Split(" ")[1];
+                string kolor1 = this.nazwa.Split(" ")[1];
                 string kolor2 = naMnie.nazwa.Split(" ")[1];
 
-                if (kolor1 == kolor2 && naMnie.numer + 1 == karta.numer)
+                if (kolor1 == kolor2 && naMnie.numer + 1 == this.numer)
                     return true;
             }
             else
             {
-                if (naMnie == null && karta.numer == 1)
+                if (naMnie == null && this.numer == 1)
                 {
                     return true;
                 }

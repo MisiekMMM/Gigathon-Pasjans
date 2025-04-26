@@ -27,7 +27,7 @@ public static class Ruch
                         //int docelowaKolumna = destination == "Kier" ? 0 : destination == "Karo" ? 1 : destination == "Trefl" ? 2 : destination == "Pik" ? 3 : throw new Exception("Nieznany kolor! Błąd w linijce 111");
                         int docelowaKolumna = siatka[wiersz, kolumna].indexKoloru;
                         int docelowyWiersz = Siatka.znajdzOstatniaKarte(kartyGora, docelowaKolumna);
-                        bool canIt = Karta.CzyKartaPasuje(siatka[wiersz, kolumna], kartyGora[docelowyWiersz, docelowaKolumna], false);
+                        bool canIt = siatka[wiersz, kolumna].CzyKartaPasuje(kartyGora[docelowyWiersz, docelowaKolumna], false);
 
                         if (canIt && Siatka.CzyOstatni(siatka, wiersz, kolumna))
                         {
@@ -66,7 +66,7 @@ public static class Ruch
                             }
                         }
                         else
-                            canIt = Karta.CzyKartaPasuje(siatka[wiersz, kolumna], siatka[docelowyWiersz, docelowaKolumna], true);
+                            canIt = siatka[wiersz, kolumna].CzyKartaPasuje(siatka[docelowyWiersz, docelowaKolumna], true);
 
                         if (canIt)
                         {
@@ -143,7 +143,7 @@ public static class Ruch
                             }
                         }
                         else
-                            canIt = Karta.CzyKartaPasuje(kartyGora[wiersz, kolumna], siatka[docelowyWiersz, docelowaKolumna], true);
+                            canIt = kartyGora[wiersz, kolumna].CzyKartaPasuje(siatka[docelowyWiersz, docelowaKolumna], true);
 
                         if (canIt)
                         {
@@ -174,7 +174,7 @@ public static class Ruch
                     {
                         int docelowaKolumna = rezerwaOdkryta[0].indexKoloru;
                         int docelowyWiersz = Siatka.znajdzOstatniaKarte(kartyGora, docelowaKolumna);
-                        bool canIt = Karta.CzyKartaPasuje(rezerwaOdkryta[0], kartyGora[docelowyWiersz, docelowaKolumna], false);
+                        bool canIt = rezerwaOdkryta[0].CzyKartaPasuje(kartyGora[docelowyWiersz, docelowaKolumna], false);
 
                         if (canIt)
                         {
@@ -204,7 +204,7 @@ public static class Ruch
                         int docelowaKolumna = int.Parse(destination);
                         int docelowyWiersz = Siatka.znajdzOstatniaKarte(siatka, docelowaKolumna);
 
-                        bool canIt = Karta.CzyKartaPasuje(rezerwaOdkryta[0], siatka[docelowyWiersz, docelowaKolumna], true);
+                        bool canIt = rezerwaOdkryta[0].CzyKartaPasuje(siatka[docelowyWiersz, docelowaKolumna], true);
 
                         if (canIt)
                         {

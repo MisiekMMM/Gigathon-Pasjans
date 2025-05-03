@@ -1,8 +1,6 @@
 
 # Zmienić ui na terminal ui (opcjonalnie)
- -https://github.com/gui-cs/TerminalGuiDesigner
- -https://github.com/gui-cs/Terminal.Gui?tab=readme-ov-file
+ - https://github.com/gui-cs/TerminalGuiDesigner
+ - https://github.com/gui-cs/Terminal.Gui?tab=readme-ov-file
 
-# komentarze dla całej klasy
-
-# warp terminal
+# Dodać cofanie ruchów

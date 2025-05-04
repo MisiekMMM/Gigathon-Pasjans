@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace Pasjans;
 
 /// <summary>
@@ -8,111 +10,115 @@ public static class Ruch
     /// <summary>
     /// Odpowiada za zapytanie o i wykonanie ruchu
     /// </summary>
-    /// <param name="siatka">Siatka kart</param>
-    /// <param name="rezerwaOdkryta">Rezerwa odkryta</param>
-    /// <param name="rezerwa">Rezerwa</param>
-    /// <param name="kartyGora">Stosy końcowe</param>
-    public static void Rusz(ref Karta[,] siatka, ref List<Karta> rezerwaOdkryta, ref List<Karta> rezerwa, ref Karta[,] kartyGora, bool isMove, string source, string destination, bool czyError = false)
+    /// <param name="gra.siatka!">Siatka kart</param>
+    /// <param name="gra.rezerwaOdkryta!">Rezerwa odkryta</param>
+    /// <param name="gra.rezerwa">Rezerwa</param>
+    /// <param name="gra.kartyGora!">Stosy końcowe</param>
+    public static void Rusz(ref Gra gra, bool isMove, string source, string destination, bool czyError = false)
     {
         try
         {
             if (isMove)
             {
-                int miejsce = Siatka.ZnajdzKarte(source, siatka, rezerwaOdkryta, kartyGora, out int wiersz, out int kolumna);
+                int miejsce = Siatka.ZnajdzKarte(source, gra.siatka!, gra.rezerwaOdkryta!, gra.kartyGora!, out int wiersz, out int kolumna);
 
                 if (miejsce == 1)
                 {
                     if (destination == "Pik" || destination == "Karo" || destination == "Kier" || destination == "Trefl")
                     {
                         //int docelowaKolumna = destination == "Kier" ? 0 : destination == "Karo" ? 1 : destination == "Trefl" ? 2 : destination == "Pik" ? 3 : throw new Exception("Nieznany kolor! Błąd w linijce 111");
-                        int docelowaKolumna = siatka[wiersz, kolumna].indexKoloru;
-                        int docelowyWiersz = Siatka.znajdzOstatniaKarte(kartyGora, docelowaKolumna);
-                        bool canIt = siatka[wiersz, kolumna].CzyKartaPasuje(kartyGora[docelowyWiersz, docelowaKolumna], false);
+                        int docelowaKolumna = gra.siatka![wiersz, kolumna].indexKoloru;
+                        int docelowyWiersz = Siatka.znajdzOstatniaKarte(gra.kartyGora!, docelowaKolumna);
+                        bool canIt = gra.siatka![wiersz, kolumna].CzyKartaPasuje(gra.kartyGora![docelowyWiersz, docelowaKolumna], false);
 
-                        if (canIt && Siatka.CzyOstatni(siatka, wiersz, kolumna))
+                        if (canIt && Siatka.CzyOstatni(gra.siatka!, wiersz, kolumna))
                         {
                             if (!czyError) if (!czyError) Debug.Add($"{source}-{destination}");
 
-                            if (siatka[wiersz, kolumna].numer != 1)
-                                kartyGora[docelowyWiersz + 1, docelowaKolumna] = siatka[wiersz, kolumna];
+                            if (gra.siatka![wiersz, kolumna].numer != 1)
+                                gra.kartyGora![docelowyWiersz + 1, docelowaKolumna] = gra.siatka![wiersz, kolumna];
                             else
-                                kartyGora[docelowyWiersz, docelowaKolumna] = siatka[wiersz, kolumna];
+                                gra.kartyGora![docelowyWiersz, docelowaKolumna] = gra.siatka![wiersz, kolumna];
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-                            siatka[wiersz, kolumna] = null;
+                            gra.siatka![wiersz, kolumna] = null;
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+
 
                             if (!czyError) //if (!czyError) Debug.Add($"{source}-{destination}");
                                 if (!czyError)
-                                    UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                                    UI.UpdateUi(gra);
                         }
                         else
                         {
                             if (!czyError)
-                                UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                                UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
 
                     }
                     else if (int.TryParse(destination, out int docelowaKolumna))
                     {
-                        int docelowyWiersz = Siatka.znajdzOstatniaKarte(siatka, docelowaKolumna);
+                        int docelowyWiersz = Siatka.znajdzOstatniaKarte(gra.siatka!, docelowaKolumna);
 
                         bool canIt = false;
 
-                        if (siatka[wiersz, kolumna].numer == 13)
+                        if (gra.siatka![wiersz, kolumna].numer == 13)
                         {
-                            if (siatka[0, docelowaKolumna] == null)
+                            if (gra.siatka![0, docelowaKolumna] == null)
                             {
                                 canIt = true;
                             }
                         }
                         else
-                            canIt = siatka[wiersz, kolumna].CzyKartaPasuje(siatka[docelowyWiersz, docelowaKolumna], true);
+                            canIt = gra.siatka![wiersz, kolumna].CzyKartaPasuje(gra.siatka![docelowyWiersz, docelowaKolumna], true);
 
                         if (canIt)
                         {
                             if (!czyError) Debug.Add($"{source}-{destination}");
-                            if (Siatka.CzyOstatni(siatka, wiersz, kolumna))
+                            if (Siatka.CzyOstatni(gra.siatka!, wiersz, kolumna))
                             {
-                                if (siatka[wiersz, kolumna].numer == 13)
-                                    siatka[docelowyWiersz, docelowaKolumna] = siatka[wiersz, kolumna];
+                                if (gra.siatka![wiersz, kolumna].numer == 13)
+                                    gra.siatka![docelowyWiersz, docelowaKolumna] = gra.siatka![wiersz, kolumna];
                                 else
-                                    siatka[docelowyWiersz + 1, docelowaKolumna] = siatka[wiersz, kolumna];
+                                    gra.siatka![docelowyWiersz + 1, docelowaKolumna] = gra.siatka![wiersz, kolumna];
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-                                siatka[wiersz, kolumna] = null;
+                                gra.siatka![wiersz, kolumna] = null;
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+
+
 
                                 if (!czyError) //if (!czyError) Debug.Add($"{source}-{destination}");
 
 
                                     if (!czyError)
-                                        UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                                        UI.UpdateUi(gra);
                             }
                             else
                             {
                                 try
                                 {
                                     int indexKarty = wiersz;
-                                    while (siatka[indexKarty, kolumna] != null)
+                                    while (gra.siatka![indexKarty, kolumna] != null)
                                     {
-                                        if (siatka[indexKarty, kolumna].numer == 13)
+                                        if (gra.siatka![indexKarty, kolumna].numer == 13)
                                         {
-                                            siatka[docelowyWiersz, docelowaKolumna] = siatka[indexKarty, kolumna];
+                                            gra.siatka![docelowyWiersz, docelowaKolumna] = gra.siatka![indexKarty, kolumna];
                                             docelowyWiersz--;
                                         }
                                         else
-                                            siatka[docelowyWiersz + 1, docelowaKolumna] = siatka[indexKarty, kolumna];
+                                            gra.siatka![docelowyWiersz + 1, docelowaKolumna] = gra.siatka![indexKarty, kolumna];
 
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-                                        siatka[indexKarty, kolumna] = null;
+                                        gra.siatka![indexKarty, kolumna] = null;
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
-
-
 
                                         indexKarty++;
                                         docelowyWiersz++;
                                     }
+
+
+
                                     if (!czyError)
-                                        UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                                        UI.UpdateUi(gra);
                                 }
                                 catch (Exception ex)
                                 {
@@ -123,7 +129,7 @@ public static class Ruch
                         else
                         {
                             if (!czyError)
-                                UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                                UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
                     }
                 }
@@ -131,40 +137,42 @@ public static class Ruch
                 {
                     if (int.TryParse(destination, out int docelowaKolumna))
                     {
-                        int docelowyWiersz = Siatka.znajdzOstatniaKarte(siatka, docelowaKolumna);
+                        int docelowyWiersz = Siatka.znajdzOstatniaKarte(gra.siatka!, docelowaKolumna);
 
                         bool canIt = false;
 
-                        if (kartyGora[wiersz, kolumna].numer == 13)
+                        if (gra.kartyGora![wiersz, kolumna].numer == 13)
                         {
-                            if (siatka[0, docelowaKolumna] == null)
+                            if (gra.siatka![0, docelowaKolumna] == null)
                             {
                                 canIt = true;
                             }
                         }
                         else
-                            canIt = kartyGora[wiersz, kolumna].CzyKartaPasuje(siatka[docelowyWiersz, docelowaKolumna], true);
+                            canIt = gra.kartyGora![wiersz, kolumna].CzyKartaPasuje(gra.siatka![docelowyWiersz, docelowaKolumna], true);
 
                         if (canIt)
                         {
                             if (!czyError) Debug.Add($"{source}-{destination}");
-                            if (kartyGora[wiersz, kolumna].numer == 13)
-                                siatka[docelowyWiersz, docelowaKolumna] = kartyGora[wiersz, kolumna];
+                            if (gra.kartyGora![wiersz, kolumna].numer == 13)
+                                gra.siatka![docelowyWiersz, docelowaKolumna] = gra.kartyGora![wiersz, kolumna];
                             else
-                                siatka[docelowyWiersz + 1, docelowaKolumna] = kartyGora[wiersz, kolumna];
+                                gra.siatka![docelowyWiersz + 1, docelowaKolumna] = gra.kartyGora![wiersz, kolumna];
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-                            kartyGora[wiersz, kolumna] = null;
+                            gra.kartyGora![wiersz, kolumna] = null;
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+
+
 
                             if (!czyError) //if (!czyError) Debug.Add($"{source}-{destination}");
 
                                 if (!czyError)
-                                    UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                                    UI.UpdateUi(gra);
                         }
                         else
                         {
                             if (!czyError)
-                                UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                                UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
                     }
                 }
@@ -172,56 +180,59 @@ public static class Ruch
                 {
                     if (destination == "Pik" || destination == "Karo" || destination == "Kier" || destination == "Trefl")
                     {
-                        int docelowaKolumna = rezerwaOdkryta[0].indexKoloru;
-                        int docelowyWiersz = Siatka.znajdzOstatniaKarte(kartyGora, docelowaKolumna);
-                        bool canIt = rezerwaOdkryta[0].CzyKartaPasuje(kartyGora[docelowyWiersz, docelowaKolumna], false);
+                        int docelowaKolumna = gra.rezerwaOdkryta![0].indexKoloru;
+                        int docelowyWiersz = Siatka.znajdzOstatniaKarte(gra.kartyGora!, docelowaKolumna);
+                        bool canIt = gra.rezerwaOdkryta![0].CzyKartaPasuje(gra.kartyGora![docelowyWiersz, docelowaKolumna], false);
 
                         if (canIt)
                         {
                             if (!czyError) Debug.Add($"{source}-{destination}");
-                            if (rezerwaOdkryta[0].numer != 1)
+                            if (gra.rezerwaOdkryta![0].numer != 1)
                             {
-                                kartyGora[docelowyWiersz + 1, docelowaKolumna] = rezerwaOdkryta[0];
-                                rezerwaOdkryta.RemoveAt(0);
+                                gra.kartyGora![docelowyWiersz + 1, docelowaKolumna] = gra.rezerwaOdkryta![0];
+                                gra.rezerwaOdkryta!.RemoveAt(0);
                             }
                             else
                             {
-                                kartyGora[docelowyWiersz, docelowaKolumna] = rezerwaOdkryta[0];
-                                rezerwaOdkryta.RemoveAt(0);
+                                gra.kartyGora![docelowyWiersz, docelowaKolumna] = gra.rezerwaOdkryta![0];
+                                gra.rezerwaOdkryta!.RemoveAt(0);
                             }
+
                             if (!czyError)
-                                UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                                UI.UpdateUi(gra);
                         }
                         else
                         {
                             if (!czyError)
-                                UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                                UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
 
                     }
                     else
                     {
                         int docelowaKolumna = int.Parse(destination);
-                        int docelowyWiersz = Siatka.znajdzOstatniaKarte(siatka, docelowaKolumna);
+                        int docelowyWiersz = Siatka.znajdzOstatniaKarte(gra.siatka!, docelowaKolumna);
 
-                        bool canIt = rezerwaOdkryta[0].CzyKartaPasuje(siatka[docelowyWiersz, docelowaKolumna], true);
+                        bool canIt = gra.rezerwaOdkryta![0].CzyKartaPasuje(gra.siatka![docelowyWiersz, docelowaKolumna], true);
 
                         if (canIt)
                         {
                             if (!czyError) Debug.Add($"{source}-{destination}");
-                            if (rezerwaOdkryta[0].numer == 13)
-                                siatka[docelowyWiersz, docelowaKolumna] = rezerwaOdkryta[0];
+                            if (gra.rezerwaOdkryta![0].numer == 13)
+                                gra.siatka![docelowyWiersz, docelowaKolumna] = gra.rezerwaOdkryta![0];
                             else
-                                siatka[docelowyWiersz + 1, docelowaKolumna] = rezerwaOdkryta[0];
-                            rezerwaOdkryta.RemoveAt(0);
+                                gra.siatka![docelowyWiersz + 1, docelowaKolumna] = gra.rezerwaOdkryta![0];
+                            gra.rezerwaOdkryta!.RemoveAt(0);
+
+
 
                             if (!czyError)
-                                UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                                UI.UpdateUi(gra);
                         }
                         else
                         {
                             if (!czyError)
-                                UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
+                                UI.UpdateUi(gra, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
                         }
 
                     }
@@ -229,42 +240,46 @@ public static class Ruch
                 else if (miejsce == 0)
                 {
                     if (!czyError)
-                        UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
+                        UI.UpdateUi(gra, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
                 }
             }
             else if (source == "+")
             {
-                if (rezerwa.Count > 0)
+                if (gra.rezerwa!.Count > 0)
                 {
-                    if (rezerwaOdkryta.Count > 0)
-                        rezerwaOdkryta[0].odkryta = false;
-                    rezerwaOdkryta.Insert(0, rezerwa[0]);
-                    rezerwa.RemoveAt(0);
+                    if (gra.rezerwaOdkryta!.Count > 0)
+                        gra.rezerwaOdkryta![0].odkryta = false;
+                    gra.rezerwaOdkryta!.Insert(0, gra.rezerwa[0]);
+                    gra.rezerwa.RemoveAt(0);
                     if (!czyError) Debug.Add("+");
+
+
+
                     if (!czyError)
-                        UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                        UI.UpdateUi(gra);
                 }
                 else
                 {
-                    for (int i = rezerwaOdkryta.Count - 1; i > -1; i--)
+                    for (int i = gra.rezerwaOdkryta!.Count - 1; i > -1; i--)
                     {
-                        rezerwa.Add(rezerwaOdkryta[i]);
-                        rezerwaOdkryta.RemoveAt(i);
+                        gra.rezerwa.Add(gra.rezerwaOdkryta![i]);
+                        gra.rezerwaOdkryta!.RemoveAt(i);
                     }
                     if (!czyError)
-                        UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa);
+                        UI.UpdateUi(gra);
                 }
+
             }
             else if (source == "bug")
             {
                 Debug.Zapisz();
                 if (!czyError)
-                    UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "error.txt zapisany");
+                    UI.UpdateUi(gra, "error.txt zapisany");
             }
             else
             {
                 if (!czyError)
-                    UI.UpdateUi(siatka, rezerwaOdkryta, kartyGora, rezerwa, "Podano niepoprawny ruch!\nNapisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                    UI.UpdateUi(gra, "Podano niepoprawny ruch!\nNapisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
 
             }
         }

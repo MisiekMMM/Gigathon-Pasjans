@@ -23,7 +23,7 @@ public static class UI
             throw new Exception("Nieznany kolor!");
         }
     }
-    public static void UpdateUi(Karta[,] siatka, List<Karta> rezerwaOdk, Karta[,] gora, List<Karta> rezerwa, string advice = "")  //parametr advice wyświetla się u góry ekranu
+    public static void UpdateUi(Gra gra, string advice = "")  //parametr advice wyświetla się u góry ekranu
     {//Ta metoda renderuje karty w terminalu 
 
         string symbolZakryty = "x"; //ustawienie symbolu zakrytej karty. Do zmiany w ustawieniach
@@ -33,16 +33,16 @@ public static class UI
         Console.ForegroundColor = ConsoleColor.Black; //zmiana koloru na czarny
 
 
-        OdkryjKarty(ref siatka); //odkrywa karty na spodzie stosu
+        OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
 
 
-        if (rezerwa.Count != 0)//jeżeli pierwsza karta z rezerwy istnieje:
+        if (gra.rezerwa!.Count != 0)//jeżeli pierwsza karta z rezerwy istnieje:
             Console.Write("     +     "); //Drukuje + który udaje rezerwę
         else
             Console.Write("          ");
 
-        if (rezerwaOdk.Count != 0)  //jeżeli pierwsza karta z odkrytej rezerwy istnieje:
-            printInColor(rezerwaOdk[0].nazwa);    //drukuje nazwę
+        if (gra.rezerwaOdkryta!.Count != 0)  //jeżeli pierwsza karta z odkrytej rezerwy istnieje:
+            printInColor(gra.rezerwaOdkryta[0].nazwa);    //drukuje nazwę
         else
             Console.Write("          ");    //Pusta przestrzeń
 
@@ -51,36 +51,36 @@ public static class UI
 
 
 
-        if (gora[0, 0] != null)  //Renderuje fundamenty
+        if (gra.kartyGora![0, 0] != null)  //Renderuje fundamenty
         {
-            printInColor(gora[znajdzOstatniaKarte(gora, 0), 0].nazwa);
+            printInColor(gra.kartyGora[znajdzOstatniaKarte(gra.kartyGora, 0), 0].nazwa);
         }
         else
         {
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Write($"{"♥",-10}");
         }
-        if (gora[0, 1] != null)  //Renderuje fundamenty
+        if (gra.kartyGora[0, 1] != null)  //Renderuje fundamenty
         {
-            printInColor(gora[znajdzOstatniaKarte(gora, 1), 1].nazwa);
+            printInColor(gra.kartyGora[znajdzOstatniaKarte(gra.kartyGora, 1), 1].nazwa);
         }
         else
         {
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Write($"{"♦",-10}");
         }
-        if (gora[0, 2] != null)  //Renderuje fundamenty
+        if (gra.kartyGora[0, 2] != null)  //Renderuje fundamenty
         {
-            printInColor(gora[znajdzOstatniaKarte(gora, 2), 2].nazwa);
+            printInColor(gra.kartyGora[znajdzOstatniaKarte(gra.kartyGora, 2), 2].nazwa);
         }
         else
         {
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Write($"{"♣",-10}");
         }
-        if (gora[0, 3] != null)  //Renderuje fundamenty
+        if (gra.kartyGora[0, 3] != null)  //Renderuje fundamenty
         {
-            printInColor(gora[znajdzOstatniaKarte(gora, 3), 3].nazwa);
+            printInColor(gra.kartyGora[znajdzOstatniaKarte(gra.kartyGora, 3), 3].nazwa);
         }
         else
         {
@@ -112,7 +112,7 @@ public static class UI
             {
                 for (int kolumna = 0; kolumna < 7; kolumna++)
                 {
-                    Karta karta = siatka[wiersz, kolumna];
+                    Karta karta = gra.siatka[wiersz, kolumna];
 
                     if (karta != null)
                     {
@@ -131,7 +131,7 @@ public static class UI
                         Console.Write("          ");
                     }
                 }
-                if (!areAllEmpty(siatka, wiersz))
+                if (!areAllEmpty(gra.siatka, wiersz))
                 {
                     Console.WriteLine();
                 }

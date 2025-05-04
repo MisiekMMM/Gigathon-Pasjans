@@ -24,7 +24,11 @@ public static class Program
     }
     public static void Start()
     {
+
+
         Gra gra = new(true, -226472860);
+
+
 
         gra.Graj();
     }

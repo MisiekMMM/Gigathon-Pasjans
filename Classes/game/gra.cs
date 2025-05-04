@@ -1,28 +1,24 @@
+using System.Security.Cryptography.X509Certificates;
+
 namespace Pasjans;
 
 public class Gra
 {
-    private List<Karta>? talia;
+    public List<Karta>? talia;
 
-    private Karta[,]? siatka;
+    public Karta[,]? siatka;
 
-    private List<Karta>? rezerwaOdkryta;
+    public List<Karta>? rezerwaOdkryta;
 
-    private Karta[,]? kartyGora;
+    public Karta[,]? kartyGora;
 
-    private List<Karta>? rezerwa;
+    public List<Karta>? rezerwa;
 
     /// <summary>
     /// Metoda odpowiadająca za przygotowanie siatki, rezerwy i stosów końcowych
     /// </summary>
     public Gra(bool isSeed, int seed = 0)
     {
-
-        Debug.Clear();
-
-        Console.BackgroundColor = ConsoleColor.White; //Zmaina koloru tła na biały
-
-        Utilities.Clear(); //odświeżenie konsoli
 
         talia = Talia.GenerujTalie();
 
@@ -43,7 +39,13 @@ public class Gra
     /// </summary>
     public void Graj()
     {
-        UI.UpdateUi(siatka!, rezerwaOdkryta!, kartyGora!, rezerwa!);   //Renderuje siatkę
+        Debug.Clear();
+
+        Console.BackgroundColor = ConsoleColor.White; //Zmaina koloru tła na biały
+
+        Utilities.Clear(); //odświeżenie konsoli
+
+        UI.UpdateUi(this);   //Renderuje siatkę
 
 
         //  odpowiada za wczytanie ruchów
@@ -52,7 +54,10 @@ public class Gra
         {
             bool isMove = Preferencje.ZapytajORuch(out string source, out string destination);
 
-            Ruch.Rusz(ref siatka!, ref rezerwaOdkryta!, ref rezerwa!, ref kartyGora!, isMove, source, destination);
+            var modified = this;
+            Ruch.Rusz(ref modified, isMove, source, destination);
+
+            this.Wczytaj(modified);
         }
         Utilities.Clear();
 
@@ -80,5 +85,13 @@ public class Gra
             }
         }
         return true;
+    }
+
+    public void Wczytaj(Gra gra)
+    {
+        siatka = gra.siatka;
+        rezerwa = gra.rezerwa;
+        kartyGora = gra.kartyGora;
+        rezerwaOdkryta = gra.rezerwaOdkryta;
     }
 }

@@ -26,7 +26,7 @@ public static class Program
     {
 
 
-        Gra gra = new(true, -226472860);
+        Gra gra = new(false);
 
 
 

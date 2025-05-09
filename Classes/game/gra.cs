@@ -39,7 +39,6 @@ public class Gra
     /// </summary>
     public void Graj()
     {
-        Debug.Clear();
 
         Console.BackgroundColor = ConsoleColor.White; //Zmaina koloru tła na biały
 

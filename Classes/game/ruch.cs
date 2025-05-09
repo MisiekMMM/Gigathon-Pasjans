@@ -33,7 +33,6 @@ public static class Ruch
 
                         if (canIt && Siatka.CzyOstatni(gra.siatka!, wiersz, kolumna))
                         {
-                            if (!czyError) if (!czyError) Debug.Add($"{source}-{destination}");
 
                             if (gra.siatka![wiersz, kolumna].numer != 1)
                                 gra.kartyGora![docelowyWiersz + 1, docelowaKolumna] = gra.siatka![wiersz, kolumna];
@@ -73,7 +72,7 @@ public static class Ruch
 
                         if (canIt)
                         {
-                            if (!czyError) Debug.Add($"{source}-{destination}");
+
                             if (Siatka.CzyOstatni(gra.siatka!, wiersz, kolumna))
                             {
                                 if (gra.siatka![wiersz, kolumna].numer == 13)
@@ -153,7 +152,7 @@ public static class Ruch
 
                         if (canIt)
                         {
-                            if (!czyError) Debug.Add($"{source}-{destination}");
+
                             if (gra.kartyGora![wiersz, kolumna].numer == 13)
                                 gra.siatka![docelowyWiersz, docelowaKolumna] = gra.kartyGora![wiersz, kolumna];
                             else
@@ -186,7 +185,7 @@ public static class Ruch
 
                         if (canIt)
                         {
-                            if (!czyError) Debug.Add($"{source}-{destination}");
+
                             if (gra.rezerwaOdkryta![0].numer != 1)
                             {
                                 gra.kartyGora![docelowyWiersz + 1, docelowaKolumna] = gra.rezerwaOdkryta![0];
@@ -217,7 +216,7 @@ public static class Ruch
 
                         if (canIt)
                         {
-                            if (!czyError) Debug.Add($"{source}-{destination}");
+
                             if (gra.rezerwaOdkryta![0].numer == 13)
                                 gra.siatka![docelowyWiersz, docelowaKolumna] = gra.rezerwaOdkryta![0];
                             else
@@ -251,7 +250,7 @@ public static class Ruch
                         gra.rezerwaOdkryta![0].odkryta = false;
                     gra.rezerwaOdkryta!.Insert(0, gra.rezerwa[0]);
                     gra.rezerwa.RemoveAt(0);
-                    if (!czyError) Debug.Add("+");
+
 
 
 
@@ -269,12 +268,6 @@ public static class Ruch
                         UI.UpdateUi(gra);
                 }
 
-            }
-            else if (source == "bug")
-            {
-                Debug.Zapisz();
-                if (!czyError)
-                    UI.UpdateUi(gra, "error.txt zapisany");
             }
             else
             {

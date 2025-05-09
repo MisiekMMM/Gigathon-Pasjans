@@ -22,8 +22,6 @@ public static class Utilities
         Console.ForegroundColor = ConsoleColor.Black;
         Console.WriteLine($"{title}\n");
         Console.WriteLine(Message);
-        Debug.Zapisz();
-        Console.WriteLine("\nZapisano plik error.txt\nNaciśnij dowolny guzik aby wyjść");
         Console.WriteLine("\n\n" + ex.Message);
         Console.ReadKey();
         Environment.Exit(100);

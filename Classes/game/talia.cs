@@ -63,7 +63,6 @@ public static class Talia
             seed = rnd.Next(int.MinValue, int.MaxValue);
         }
 
-        Debug.seed = seed;
         rnd = new(seed);
         List<Karta> shuffled = kartas;
         int n = shuffled.Count;

@@ -36,7 +36,6 @@ public class Karta
     /// </summary>
     /// <param name="number">Numer karty (od 1 do 13)</param>
     /// <param name="color">true - czerwony, false - czarny</param>
-    /// <param name="colorSlowny">pik, karo, kier, trefl</param>
     public Karta(int number, bool color, string colorSlowny) //colorSlowny to Pik, Karo, Trefl, Kier
     {
 
@@ -109,10 +108,10 @@ public class Karta
         {
             if (naMnie != null)
             {
-                string kolor1 = this.nazwa.Split(" ")[1];
-                string kolor2 = naMnie.nazwa.Split(" ")[1];
+                string kolor1 = this.nazwa.Split(" ")[1].ToLower();
+                string kolor2 = naMnie.nazwa.Split(" ")[1].ToLower();
 
-                if (kolor1 == kolor2 && naMnie.numer + 1 == this.numer)
+                if (kolor1.Equals(kolor2) && naMnie.numer + 1 == this.numer)
                     return true;
             }
             else

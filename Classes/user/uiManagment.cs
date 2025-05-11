@@ -6,22 +6,44 @@ public static class UI
 {
     private static void printInColor(string Text)
     {
-        if (Text.Contains("Karo") || Text.Contains("Kier"))//Kier i karo 
+        if ((bool)Ustawienia.wartosci!["Emotki"])
         {
-            Console.ForegroundColor = ConsoleColor.Red; // ustawianie na czerwony kolor
-            Console.Write($"{Text.Replace("Karo", "♦").Replace("Kier", "♥"),-10}"); //Zamiana słownego koloru na emotkę
-            Console.ForegroundColor = ConsoleColor.Black; //Zmiana koloru ponownie na czarny
-        }
-        else if (Text.Contains("Pik") || Text.Contains("Trefl"))//Pik i trefl
-        {
-            Console.ForegroundColor = ConsoleColor.Black;//Zmiana koloru na czarny (na wszelki wypadek)
-            Console.Write($"{Text.Replace("Pik", "♠").Replace("Trefl", "♣"),-10}"); //Zamiana słownego koloru na emotkę
+            if (Text.Contains("Karo") || Text.Contains("Kier"))//Kier i karo 
+            {
+                Console.ForegroundColor = ConsoleColor.Red; // ustawianie na czerwony kolor
+                Console.Write($"{Text.Replace("Karo", "♦").Replace("Kier", "♥"),-10}"); //Zamiana słownego koloru na emotkę
+                Console.ForegroundColor = ConsoleColor.Black; //Zmiana koloru ponownie na czarny
+            }
+            else if (Text.Contains("Pik") || Text.Contains("Trefl"))//Pik i trefl
+            {
+                Console.ForegroundColor = ConsoleColor.Black;//Zmiana koloru na czarny (na wszelki wypadek)
+                Console.Write($"{Text.Replace("Pik", "♠").Replace("Trefl", "♣"),-10}"); //Zamiana słownego koloru na emotkę
 
+            }
+            else
+            {//Obsługa błędu
+                throw new Exception("Nieznany kolor!");
+            }
         }
         else
-        {//Obsługa błędu
-            throw new Exception("Nieznany kolor!");
+        {
+            if (Text.Contains("Karo") || Text.Contains("Kier"))//Kier i karo 
+            {
+                Console.ForegroundColor = ConsoleColor.Red; // ustawianie na czerwony kolor
+                Console.Write($"{Text,-10}"); //Zamiana słownego koloru na emotkę
+                Console.ForegroundColor = ConsoleColor.Black; //Zmiana koloru ponownie na czarny
+            }
+            else if (Text.Contains("Pik") || Text.Contains("Trefl"))//Pik i trefl
+            {
+                Console.ForegroundColor = ConsoleColor.Black;//Zmiana koloru na czarny (na wszelki wypadek)
+                Console.Write($"{Text,-10}"); //Zamiana słownego koloru na emotkę
+            }
+            else
+            {
+                throw new Exception("Nieznany kolor");
+            }
         }
+
     }
     public static void UpdateUi(Gra gra, string advice = "")  //parametr advice wyświetla się u góry ekranu
     {//Ta metoda renderuje karty w terminalu 

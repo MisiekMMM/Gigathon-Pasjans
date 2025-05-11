@@ -45,12 +45,6 @@ public static class Preferencje
                 MainMenu.Otworz();
                 return false;
             }
-            else if (ruch.ToLower() == "bug")
-            {
-                source = "bug";
-                destination = "bug";
-                return false;
-            }
             else if (ruch == "+")
             {
                 source = "+";
@@ -59,7 +53,7 @@ public static class Preferencje
             }
 
             bool czyRozdziel = Rozdziel(ruch, out source, out destination);
-            return czyRozdziel;
+            return czyRozdziel;//s
         }
         catch (Exception ex)
         {
@@ -68,13 +62,15 @@ public static class Preferencje
 
         return true;
     }
-    //linijka 61
+
     public static bool Rozdziel(string ruch, out string source, out string destination)
     {
+        ruch = ruch.ToLower();
+
         source = "";
         destination = "";
 
-        string wzorKarty = @"^(10|[2-9]|As|[KQJ]) (Pik|Karo|Trefl|Kier)$";
+        string wzorKarty = @"^(10|[2-9]|as|[kqj]) (pik|karo|trefl|kier)$";
 
         Match match = Regex.Match(ruch, wzorKarty);
         if (ruch == "+")

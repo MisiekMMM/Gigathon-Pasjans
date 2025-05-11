@@ -14,7 +14,7 @@ public static class Ruch
     /// <param name="gra.rezerwaOdkryta!">Rezerwa odkryta</param>
     /// <param name="gra.rezerwa">Rezerwa</param>
     /// <param name="gra.kartyGora!">Stosy końcowe</param>
-    public static void Rusz(ref Gra gra, bool isMove, string source, string destination, bool czyError = false)
+    public static void Rusz(ref Gra gra, bool isMove, string source, string destination)
     {
         try
         {
@@ -24,7 +24,7 @@ public static class Ruch
 
                 if (miejsce == 1)
                 {
-                    if (destination == "Pik" || destination == "Karo" || destination == "Kier" || destination == "Trefl")
+                    if (destination.ToLower() == "pik" || destination.ToLower() == "karo" || destination.ToLower() == "kier" || destination.ToLower() == "trefl")
                     {
                         //int docelowaKolumna = destination == "Kier" ? 0 : destination == "Karo" ? 1 : destination == "Trefl" ? 2 : destination == "Pik" ? 3 : throw new Exception("Nieznany kolor! Błąd w linijce 111");
                         int docelowaKolumna = gra.siatka![wiersz, kolumna].indexKoloru;
@@ -43,14 +43,13 @@ public static class Ruch
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
 
-                            if (!czyError) //if (!czyError) Debug.Add($"{source}-{destination}");
-                                if (!czyError)
-                                    UI.UpdateUi(gra);
+
+                            UI.UpdateUi(gra);
                         }
                         else
                         {
-                            if (!czyError)
-                                UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+
+                            UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
 
                     }
@@ -85,11 +84,8 @@ public static class Ruch
 
 
 
-                                if (!czyError) //if (!czyError) Debug.Add($"{source}-{destination}");
 
-
-                                    if (!czyError)
-                                        UI.UpdateUi(gra);
+                                UI.UpdateUi(gra);
                             }
                             else
                             {
@@ -116,8 +112,8 @@ public static class Ruch
 
 
 
-                                    if (!czyError)
-                                        UI.UpdateUi(gra);
+
+                                    UI.UpdateUi(gra);
                                 }
                                 catch (Exception ex)
                                 {
@@ -127,8 +123,8 @@ public static class Ruch
                         }
                         else
                         {
-                            if (!czyError)
-                                UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+
+                            UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
                     }
                 }
@@ -163,21 +159,19 @@ public static class Ruch
 
 
 
-                            if (!czyError) //if (!czyError) Debug.Add($"{source}-{destination}");
 
-                                if (!czyError)
-                                    UI.UpdateUi(gra);
+                            UI.UpdateUi(gra);
                         }
                         else
                         {
-                            if (!czyError)
-                                UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+
+                            UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
                     }
                 }
                 else if (miejsce == 3)
                 {
-                    if (destination == "Pik" || destination == "Karo" || destination == "Kier" || destination == "Trefl")
+                    if (destination.ToLower() == "pik" || destination.ToLower() == "karo" || destination.ToLower() == "kier" || destination.ToLower() == "trefl")
                     {
                         int docelowaKolumna = gra.rezerwaOdkryta![0].indexKoloru;
                         int docelowyWiersz = Siatka.znajdzOstatniaKarte(gra.kartyGora!, docelowaKolumna);
@@ -197,13 +191,13 @@ public static class Ruch
                                 gra.rezerwaOdkryta!.RemoveAt(0);
                             }
 
-                            if (!czyError)
-                                UI.UpdateUi(gra);
+
+                            UI.UpdateUi(gra);
                         }
                         else
                         {
-                            if (!czyError)
-                                UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+
+                            UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
 
                     }
@@ -225,21 +219,21 @@ public static class Ruch
 
 
 
-                            if (!czyError)
-                                UI.UpdateUi(gra);
+
+                            UI.UpdateUi(gra);
                         }
                         else
                         {
-                            if (!czyError)
-                                UI.UpdateUi(gra, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
+
+                            UI.UpdateUi(gra, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
                         }
 
                     }
                 }
                 else if (miejsce == 0)
                 {
-                    if (!czyError)
-                        UI.UpdateUi(gra, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
+
+                    UI.UpdateUi(gra, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
                 }
             }
             else if (source == "+")
@@ -254,8 +248,8 @@ public static class Ruch
 
 
 
-                    if (!czyError)
-                        UI.UpdateUi(gra);
+
+                    UI.UpdateUi(gra);
                 }
                 else
                 {
@@ -264,15 +258,15 @@ public static class Ruch
                         gra.rezerwa.Add(gra.rezerwaOdkryta![i]);
                         gra.rezerwaOdkryta!.RemoveAt(i);
                     }
-                    if (!czyError)
-                        UI.UpdateUi(gra);
+
+                    UI.UpdateUi(gra);
                 }
 
             }
             else
             {
-                if (!czyError)
-                    UI.UpdateUi(gra, "Podano niepoprawny ruch!\nNapisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+
+                UI.UpdateUi(gra, "Podano niepoprawny ruch!\nNapisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
 
             }
         }

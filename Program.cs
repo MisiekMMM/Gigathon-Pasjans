@@ -25,7 +25,6 @@ public static class Program
     public static void Start()
     {
 
-
         Gra gra = new(false);
 
 

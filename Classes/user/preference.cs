@@ -49,6 +49,8 @@ public static class Preferencje
             {
                 source = "+";
                 destination = "+";
+
+
                 return false;
             }
 

@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Pasjans;
 
@@ -118,6 +119,7 @@ public static class Ruch
                                 catch (Exception ex)
                                 {
                                     Utilities.Blad("Pojawił się błąd podczas przesuwania stosu!", "Niestety muszę to naprawić (linijka 183)", ex);
+                                    UI.UpdateUi(gra);
                                 }
                             }
                         }
@@ -273,6 +275,8 @@ public static class Ruch
         catch (Exception ex)
         {
             Utilities.Blad("Coś się stało, ale nie wiem co!", "Przeczytaj instrukcję w menu Jak Grać", ex);
+            UI.UpdateUi(gra);
         }
+
     }
 }

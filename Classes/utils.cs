@@ -24,7 +24,6 @@ public static class Utilities
         Console.WriteLine(Message);
         Console.WriteLine("\n\n" + ex.Message);
         Console.ReadKey();
-        Environment.Exit(100);
     }
     /// <summary>
     /// Wyczyszczenie konsoli. Podczas debugowania zakomentować

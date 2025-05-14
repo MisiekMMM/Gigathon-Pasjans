@@ -45,7 +45,13 @@ public static class UI
         }
 
     }
-    public static void UpdateUi(Gra gra, string advice = "")  //parametr advice wyświetla się u góry ekranu
+    /// <summary>
+    /// renderuje grę
+    /// </summary>
+    /// <param name="gra">gra</param>
+    /// <param name="czyKoniec">czy wszystkie karty zostały odkryte</param>
+    /// <param name="advice">napis który się wyświetli</param>
+    public static void UpdateUi(Gra gra, bool czyKoniec = false, string advice = "")  //parametr advice wyświetla się u góry ekranu
     {//Ta metoda renderuje karty w terminalu 
 
         string symbolZakryty = "x"; //ustawienie symbolu zakrytej karty. Do zmiany w ustawieniach
@@ -166,7 +172,14 @@ public static class UI
             Utilities.Blad("Błąd podczas renderowania siatki!", "Spróbuj zrestartować grę!", ex);
         }
 
-        Console.WriteLine("\n\n" + advice); //Napisanie porady pod siatką
+        if (czyKoniec)
+        {
+            Console.WriteLine("\n\n" + advice + "\nWpisz \"wygrana\" aby zakończyć grę"); //Napisanie porady pod siatką
+        }
+        else
+        {
+            Console.WriteLine("\n\n" + advice);
+        }
     }
     private static void OdkryjKarty(ref Karta[,] siatka)//ta metoda odkrywa karty na końcu każdej kolumny
     {

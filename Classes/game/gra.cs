@@ -55,7 +55,10 @@ public class Gra
             bool isMove = Preferencje.ZapytajORuch(out string source, out string destination);
 
             var modified = this;
-            Ruch.Rusz(ref modified, isMove, source, destination);
+
+            bool czyKoniec = czyWszystkieOdkryte();
+
+            Ruch.Rusz(ref modified, isMove, source, destination, czyKoniec);
 
             this.Wczytaj(modified);
         }
@@ -80,6 +83,18 @@ public class Gra
         foreach (Karta karta in siatka!)
         {
             if (karta != null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    private bool czyWszystkieOdkryte()
+    {
+
+        foreach (Karta karta in siatka!)
+        {
+            if (karta != null && !karta.odkryta)
             {
                 return false;
             }

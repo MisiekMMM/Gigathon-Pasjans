@@ -53,6 +53,15 @@ public static class Preferencje
 
                 return false;
             }
+            else if (ruch.ToLower() == "wygrana")
+            {
+                source = "wygrana";
+                destination = "wygrana";
+
+                return false;
+
+            }
+
 
             bool czyRozdziel = Rozdziel(ruch, out source, out destination);
             return czyRozdziel;//s

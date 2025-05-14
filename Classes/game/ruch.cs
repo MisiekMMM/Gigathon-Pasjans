@@ -15,7 +15,7 @@ public static class Ruch
     /// <param name="gra.rezerwaOdkryta!">Rezerwa odkryta</param>
     /// <param name="gra.rezerwa">Rezerwa</param>
     /// <param name="gra.kartyGora!">Stosy końcowe</param>
-    public static void Rusz(ref Gra gra, bool isMove, string source, string destination)
+    public static void Rusz(ref Gra gra, bool isMove, string source, string destination, bool czyKoniec)
     {
         try
         {
@@ -50,7 +50,7 @@ public static class Ruch
                         else
                         {
 
-                            UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            UI.UpdateUi(gra, czyKoniec, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
 
                     }
@@ -126,7 +126,7 @@ public static class Ruch
                         else
                         {
 
-                            UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            UI.UpdateUi(gra, czyKoniec, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
                     }
                 }
@@ -167,7 +167,7 @@ public static class Ruch
                         else
                         {
 
-                            UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            UI.UpdateUi(gra, czyKoniec, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
                     }
                 }
@@ -199,7 +199,7 @@ public static class Ruch
                         else
                         {
 
-                            UI.UpdateUi(gra, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            UI.UpdateUi(gra, czyKoniec, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
                         }
 
                     }
@@ -227,7 +227,7 @@ public static class Ruch
                         else
                         {
 
-                            UI.UpdateUi(gra, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
+                            UI.UpdateUi(gra, czyKoniec, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
                         }
 
                     }
@@ -235,7 +235,7 @@ public static class Ruch
                 else if (miejsce == 0)
                 {
 
-                    UI.UpdateUi(gra, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
+                    UI.UpdateUi(gra, czyKoniec, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
                 }
             }
             else if (source == "+")
@@ -246,10 +246,6 @@ public static class Ruch
                         gra.rezerwaOdkryta![0].odkryta = false;
                     gra.rezerwaOdkryta!.Insert(0, gra.rezerwa[0]);
                     gra.rezerwa.RemoveAt(0);
-
-
-
-
 
                     UI.UpdateUi(gra);
                 }
@@ -265,10 +261,21 @@ public static class Ruch
                 }
 
             }
+            else if (source == "wygrana")
+            {
+                if (czyKoniec)
+                {
+                    gra.siatka = new Karta[19, 7];
+                }
+                else
+                {
+                    UI.UpdateUi(gra, czyKoniec, "Nie wszystkie karty zostały odkryte");
+                }
+            }
             else
             {
 
-                UI.UpdateUi(gra, "Podano niepoprawny ruch!\nNapisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                UI.UpdateUi(gra, czyKoniec, "Podano niepoprawny ruch!\nNapisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
 
             }
         }
@@ -277,6 +284,5 @@ public static class Ruch
             Utilities.Blad("Coś się stało, ale nie wiem co!", "Przeczytaj instrukcję w menu Jak Grać", ex);
             UI.UpdateUi(gra);
         }
-
     }
 }

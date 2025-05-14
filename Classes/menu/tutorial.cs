@@ -17,7 +17,7 @@ public static class Tutorial
         {
             "Cel gry: \n● Ułożyć wszystkie karty w czterech kolorach (♠ ♥ ♦ ♣) od asa do króla na stosach końcowych",
             "Rozgrywka: \n●Karty są rozłożone w 7 kolumnach: od 1 do 7 kart, tylko ostatnia karta w kolumnie odkryta.\n●Pozostałe karty tworzą rezerwę.\n●Karty można układać malejąco i naprzemiennie kolorami w kolumnach (np. czarna 7 na czerwoną 8).\n●Tylko król może być przeniesiony na pustą kolumnę.\n●Asy przenosi się na stosy końcowe i buduje kolory rosnąco (A, 2, 3, ..., K).\n●Z talii dobierania można przeglądać karty i przenosić je do kolumn lub na stosy końcowe.",
-            "● Aby poruszać kartą między stosami należy napisać jej nazwę i kolumnę celu w tym wzorze:\nnumer lub znak karty-kolumna docelowa\nnp. Q Kier-1, 2 Pik-3, j trefl-5.\nWielkość liter nie ma znaczenia.\n● Aby przenieść kartę na stos końcowy wystarczy podać jej nazwę, np. As Pik, 4 Kier\n● Aby odkryć nową kartę z rezerwy należy napisać \"+\"",
+            "● Aby poruszać kartą między stosami należy napisać jej nazwę i kolumnę celu w tym wzorze:\nnumer lub znak karty-kolumna docelowa\nnp. Q Kier-1, 2 Pik-3, j trefl-5.\nWielkość liter nie ma znaczenia.\n● Aby przenieść kartę na stos końcowy wystarczy podać jej nazwę, np. As Pik, 4 Kier\n● Aby odkryć nową kartę z rezerwy należy napisać \"+\"\n● Aby wyjść z trwającej gry wpisz \"x\"",
             "Wygrana:\n● Gra kończy się, gdy wszystkie cztery kolory zostaną ułożone na stosach końcowych od asa do króla."
         };
 

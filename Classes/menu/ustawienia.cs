@@ -26,7 +26,7 @@ public static class Ustawienia
             wartosci.Add("Głośność", 100);
             wartosci.Add("Emotki", true);
 
-            wartosci = Wczytaj(wartosci);
+            wartosci = Wczytaj();
 
             int numerSwiatla = 0;
 
@@ -101,13 +101,21 @@ public static class Ustawienia
     /// </summary>
     /// <param name="dict">słownik</param>
     /// <returns>Słownik z wczytanymi ustawieniami</returns>
-    public static Dictionary<string, object> Wczytaj(Dictionary<string, object> dict)
+    public static Dictionary<string, object> Wczytaj()
     {
         ustawienia = new() { "Głośność", "Emotki" };
         wartosci = new();
         wartosci.Add("Głośność", 100);
         wartosci.Add("Emotki", true);
-        string[] lines = File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, @"ustawienia"));
+
+        string filePath = Path.Combine(Environment.CurrentDirectory, @"ustawienia");
+
+        if (!File.Exists(filePath))
+        {
+            UtworzPlik();
+        }
+
+        string[] lines = File.ReadAllLines(filePath);
 
         Dictionary<string, object> pairs = new();
 
@@ -156,5 +164,16 @@ public static class Ustawienia
                 sr.WriteLine($"{s} {dict[s]}");
             }
         }
+    }
+    public static void UtworzPlik()
+    {
+        wartosci = new();
+
+        wartosci!["Głośność"] = 100;
+        wartosci!["Emotki"] = true;
+
+        Zapisz(wartosci, ustawienia!);
+
+        Wczytaj();
     }
 }

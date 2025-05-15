@@ -12,7 +12,7 @@ public static class Preferencje
     /// </summary>
     /// <param name="options">Lista opcji</param>
     /// <returns></returns>
-    public static int ZapytajLista(params List<string> options) //ta metoda zadaje pytanie
+    public static int ZapytajLista(List<string> options) //ta metoda zadaje pytanie
     {
         Utilities.Clear(); //Czyszczenie konsoli
 

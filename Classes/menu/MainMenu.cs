@@ -19,7 +19,7 @@ public static class MainMenu
     public static void Otworz()
     {
 
-        Ustawienia.wartosci = Ustawienia.Wczytaj(Ustawienia.wartosci!);
+        Ustawienia.wartosci = Ustawienia.Wczytaj();
 
         switch (Preferencje.ZapytajLista(["Zagraj", "Ustawienia", "Jak Grać"]))  // zapytanie użytkownika
         //switch (1)  //W przypadku debugowania visual studio code nie obsługuje Console.ReadKey();

@@ -1,4 +1,3 @@
-using System.Data;
 using NAudio.Wave;
 
 namespace Pasjans;

@@ -8,6 +8,7 @@ namespace Pasjans;
 public class Music
 {
     private static string filePath = "music.wav"; // Ścieżka pliku muzycznego
+    private static string musicUrl = "https://github.com/MisiekMMM/Files/raw/refs/heads/main/music.wav";
     private static IWavePlayer? waveOut; //Muzyka
     private static AudioFileReader? audioFile;  //plik muzyki
     private static Thread? playbackThread;   // osobny wątek dla muzyki
@@ -17,11 +18,37 @@ public class Music
     /// <summary>
     /// Ta metoda włącza muzykę w osobnym wątku
     /// </summary>
-    public static void StartMusic()
+    public static async void StartMusic()
     {
+        if (!File.Exists(filePath))
+        {
+            try
+            {
+                await DownloadFileAsync(musicUrl, "music.wav");
+                StartMusic();
+            }
+            catch (Exception ex)
+            {
+                Utilities.Blad("Błąd przy pobieraniu muzyki", "spróbuj pobrać plik manualnie i umieść go w folderze z plikiem exe\nhttps://github.com/MisiekMMM/Files/raw/refs/heads/main/music.wav", ex);
+            }
+        }
         playbackThread = new Thread(() => PlayLoop(filePath));
         playbackThread.IsBackground = true;
         playbackThread.Start();
+    }
+    static async Task DownloadFileAsync(string url, string destinationPath)
+    {
+        using (HttpClient client = new HttpClient())
+        using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
+        {
+            response.EnsureSuccessStatusCode();
+
+            using (Stream contentStream = await response.Content.ReadAsStreamAsync(),
+                        fileStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+            {
+                await contentStream.CopyToAsync(fileStream);
+            }
+        }
     }
     /// <summary>
     /// Ta metoda włącza muzykę i zapętlenie

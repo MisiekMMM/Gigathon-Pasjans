@@ -2,6 +2,9 @@ using System.Text.RegularExpressions;
 
 namespace Pasjans;
 
+/// <summary>
+/// odpowiada za zapytania
+/// </summary>
 public static class Preferencje
 {
     /// <summary>
@@ -31,6 +34,10 @@ public static class Preferencje
 
         return ZapytajLista(options); //zwracamy numer odpowiedzi
     }
+
+    /// <summary>
+    /// pyta o ruch
+    /// </summary>
     public static bool ZapytajORuch(out string source, out string destination) // zadaniem tej metody jest uzyskanie od użytkownika nazwy karty i numeru stosu
     {
 
@@ -68,12 +75,19 @@ public static class Preferencje
         }
         catch (Exception ex)
         {
-            Utilities.Blad("Wystąpił błąd w metodzie AskMove!", "Przeczytaj instrukcję obsługi w menu Jak Grać!", ex);
+            Utilities.Blad("Wystąpił błąd w metodzie ZapytajORuch!", "Przeczytaj instrukcję obsługi w menu Jak Grać!", ex);
         }
 
         return true;
     }
 
+    /// <summary>
+    /// rozdziela source i destination ruchu
+    /// </summary>
+    /// <param name="ruch">ruch</param>
+    /// <param name="source">source</param>
+    /// <param name="destination">destination</param>
+    /// <returns></returns>
     public static bool Rozdziel(string ruch, out string source, out string destination)
     {
         ruch = ruch.ToLower();

@@ -2,8 +2,15 @@ using System;
 
 namespace Pasjans;
 
+/// <summary>
+/// odpowiada za interfejs użytkownika
+/// </summary>
 public static class UI
 {
+    /// <summary>
+    /// drukuje tekst na kolorowo z zamianą tekstu na emoji.
+    /// </summary>
+    /// <param name="Text">tekst do wydrukowania</param>
     private static void printInColor(string Text)
     {
         if ((bool)Ustawienia.wartosci!["Emotki"])
@@ -50,11 +57,11 @@ public static class UI
     /// </summary>
     /// <param name="gra">gra</param>
     /// <param name="czyKoniec">czy wszystkie karty zostały odkryte</param>
-    /// <param name="advice">napis który się wyświetli</param>
-    public static void UpdateUi(Gra gra, bool czyKoniec = false, string advice = "")  //parametr advice wyświetla się u góry ekranu
+    /// <param name="advice">napis który wyświetli się na dole ekranu</param>
+    public static void UpdateUi(Gra gra, bool czyKoniec = false, string advice = "")
     {//Ta metoda renderuje karty w terminalu 
 
-        string symbolZakryty = "x"; //ustawienie symbolu zakrytej karty. Do zmiany w ustawieniach
+        string symbolZakryty = "x";
 
         Utilities.Clear();
 
@@ -181,7 +188,10 @@ public static class UI
             Console.WriteLine("\n\n" + advice);
         }
     }
-    private static void OdkryjKarty(ref Karta[,] siatka)//ta metoda odkrywa karty na końcu każdej kolumny
+    ///<summary>
+    /// ta metoda odkrywa karty na końcu każdej kolumny
+    /// </summary>
+    private static void OdkryjKarty(ref Karta[,] siatka)
     {
         for (int kolumna = 0; kolumna < 7; kolumna++) //kolumny
         {
@@ -200,6 +210,12 @@ public static class UI
         }
 
     }
+    /// <summary>
+    /// znajduje ostatnią kartę w kolumnie i zwraca jej wiersz
+    /// </summary>
+    /// <param name="siatka">siatka</param>
+    /// <param name="kolumna">kolumna</param>
+    /// <returns>wiersz</returns>
     private static int znajdzOstatniaKarte(Karta[,] siatka, int kolumna)
     {
         for (int i = 0; i < siatka.GetLength(0); i++)
@@ -211,16 +227,19 @@ public static class UI
         }
         return -1;
     }
-    private static bool areAllEmpty(Karta[,] siatka, int i)// ta metoda sprawdza, czy wszystkie karty w poniższy
+
+    ///<summary>
+    /// sprawdza czy wszystkie karty w wierszu poniżej są puste
+    /// </summary>
+    private static bool areAllEmpty(Karta[,] siatka, int i)
     {
-        bool areAllEmpty = true;
         for (int i2 = 0; i2 < 7; i2++)
         {
-            if (i + 1 < siatka.GetLength(0) && siatka[i + 1, i2] != null) //Jeżeli index nie wychodzi poza tablicę i karta pod nie jest nullem:
+            if (i + 1 < siatka.GetLength(0) && siatka[i + 1, i2] != null) //Jeżeli index nie wychodzi poza zakres tablicy i karta pod nie jest nullem:
             {
                 return false; //zwracamy false
             }
         }
-        return areAllEmpty;
+        return true;
     }
 }

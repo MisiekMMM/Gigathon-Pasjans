@@ -11,7 +11,7 @@ public class Music
     private static string filePath = "music.wav"; // Ścieżka pliku muzycznego
     private static IWavePlayer? waveOut; //Muzyka
     private static AudioFileReader? audioFile;  //plik muzyki
-    private static Thread? playbackThread;   // osobny wątek
+    private static Thread? playbackThread;   // osobny wątek dla muzyki
     private static bool isPlaying = true;
 
 

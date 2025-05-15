@@ -30,7 +30,14 @@ public static class Utilities
     /// </summary>
     public static void Clear()
     {
-        Console.Clear();
+        try
+        {
+            Console.Clear();
+        }
+        catch (IOException)
+        {
+            Console.WriteLine("Nie udało się wyczyścić konsoli.");
+        }
     }
     /// <summary>
     /// Drukuje prostą linie

@@ -2,6 +2,9 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Pasjans;
 
+/// <summary>
+/// odpowiada za grę. Zawiera pola takie jak talia siatka rezerwa rezerwa odkryta i stosy końcowe
+/// </summary>
 public class Gra
 {
     public List<Karta>? talia;
@@ -89,6 +92,9 @@ public class Gra
         }
         return true;
     }
+    /// <summary>
+    /// sprawdza, czy wszystkie karty zostały odkryte
+    /// </summary>
     private bool czyWszystkieOdkryte()
     {
 
@@ -102,6 +108,10 @@ public class Gra
         return true;
     }
 
+    /// <summary>
+    /// wczytuje grę z innego obiektu gra
+    /// </summary>
+    /// <param name="gra">gra do wczytania</param>
     public void Wczytaj(Gra gra)
     {
         siatka = gra.siatka;

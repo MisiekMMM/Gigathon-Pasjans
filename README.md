@@ -13,7 +13,7 @@ Projekt Pasjans na gigathon.
 ### Wymagania wstępne
 
 
-- [dotnet 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+- [dotnet 9.0](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 
 
 ### Instalacja
@@ -24,7 +24,8 @@ Wpisz komendę:
 dotnet run
 ```
 
-Wpisz ją tylko za pierwszym razem. Później uruchamiaj program, który pojawi się w bin/debug/net9.0/Pasjans.exe 
+__Program wymaga pełnego okna konsoli!__
+
 
 
 ## Jak Grać <a name = "usage"></a>

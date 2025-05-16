@@ -17,8 +17,19 @@ public static class Program
 
         Console.BackgroundColor = ConsoleColor.White; //Zmiana koloru tła na biały
         Console.ForegroundColor = ConsoleColor.Black;
+        try
+        {
+            Ustawienia.wartosci = Ustawienia.Wczytaj();
 
-        Music.StartMusic();
+            Music.StartMusic();
+        }
+        catch
+        {
+            Ustawienia.wartosci = Ustawienia.Wczytaj();
+
+            Music.StartMusic();
+        }
+
 
         MainMenu.Otworz(); //Otwiera menu główne
     }

@@ -24,7 +24,7 @@ public class Music
         {
             try
             {
-                await DownloadFileAsync(musicUrl, "music.wav");
+                await PobierzMuzyke(musicUrl, "music.wav");
                 StartMusic();
             }
             catch (Exception ex)
@@ -32,11 +32,25 @@ public class Music
                 Utilities.Blad("Błąd przy pobieraniu muzyki", "spróbuj pobrać plik manualnie i umieść go w folderze z plikiem exe\nhttps://github.com/MisiekMMM/Files/raw/refs/heads/main/music.wav", ex);
             }
         }
-        playbackThread = new Thread(() => PlayLoop(filePath));
-        playbackThread.IsBackground = true;
-        playbackThread.Start();
+        try
+        {
+            playbackThread = new Thread(() => PlayLoop(filePath));
+            playbackThread.IsBackground = true;
+            playbackThread.Start();
+        }
+        catch
+        {
+            StartMusic();
+        }
+
     }
-    static async Task DownloadFileAsync(string url, string destinationPath)
+    /// <summary>
+    /// Pobiera muzykę gdy trzeba
+    /// </summary>
+    /// <param name="url"></param>
+    /// <param name="destinationPath"></param>
+    /// <returns></returns>
+    static async Task PobierzMuzyke(string url, string destinationPath)
     {
         using (HttpClient client = new HttpClient())
         using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
@@ -56,22 +70,30 @@ public class Music
     /// <param name="filePath">Ścieżka do pliku muzycznego</param>
     private static void PlayLoop(string filePath)
     {
-        waveOut = new WaveOutEvent();
-        audioFile = new AudioFileReader(filePath);
-        waveOut.Init(audioFile);
-        waveOut.PlaybackStopped += OnPlaybackStopped!;
-        waveOut.Volume = (float)(int)Ustawienia.wartosci!["Głośność"] / 100f;
-        waveOut.Play();
-
-
-
-        // Keep thread alive while playing
-        while (isPlaying)
+        try
         {
+            waveOut = new WaveOutEvent();
+            audioFile = new AudioFileReader(filePath);
+            waveOut.Init(audioFile);
+            waveOut.PlaybackStopped += OnPlaybackStopped!;
             waveOut.Volume = (float)(int)Ustawienia.wartosci!["Głośność"] / 100f;
+            waveOut.Play();
 
-            Thread.Sleep(100); // Small delay to reduce CPU usage
+
+
+            // Keep thread alive while playing
+            while (isPlaying)
+            {
+                waveOut.Volume = (float)(int)Ustawienia.wartosci!["Głośność"] / 100f;
+
+                Thread.Sleep(100); // Small delay to reduce CPU usage
+            }
         }
+        catch
+        {
+            PlayLoop(filePath);
+        }
+
     }
     /// <summary>
     /// Uruchamia muzykę ponownie

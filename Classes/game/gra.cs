@@ -29,9 +29,7 @@ public class Gra
 
         talia = Talia.Tasuj(talia, isSeed, seed); //Tasowanie talii
 
-        //siatka = Siatka.ZrobSiatke(talia, out rezerwa); //Tworzy siatkę
-
-        siatka = Siatka.TestowaSiatka(out rezerwa);
+        siatka = Siatka.ZrobSiatke(talia, out rezerwa); //Tworzy siatkę
 
         rezerwaOdkryta = new(); //Tworzenie listy z odkrytą rezerwą
 
@@ -73,7 +71,7 @@ public class Gra
         }
         Utilities.Clear();
 
-        Console.WriteLine("__        __                                       \n\\ \\      / /_   _   __ _  _ __  __ _  _ __    __ _ \n\\ \\ \\ /\\ / /| | | | / _` || '__|/ _` || '_ \\  / _` |\n\\  \\ V  V / | |_| || (_| || |  | (_| || | | || (_| |\n\\   \\_/\\_/   \\__, | \\__, ||_|   \\__,_||_| |_| \\__,_|\n\\            |___/  |___/                           \n\n\n");
+        Console.WriteLine("__        __                                 _ \n\\ \\      / /   _  __ _ _ __ __ _ _ __   __ _| |\n\\ \\ \\ /\\ / / | | |/ _` | '__/ _` | '_ \\ / _` | |\n\\  \\ V  V /| |_| | (_| | | | (_| | | | | (_| |_|\n\\   \\_/\\_/  \\__, |\\__, |_|  \\__,_|_| |_|\\__,_(_)\n\\           |___/ |___/                         \n\n\n");
 
         Console.WriteLine("Naciśnij dowolny guzik aby wrócić do menu głównego");
 

@@ -108,18 +108,6 @@ public static class Siatka
         }
         return -1;
     }
-
-    public static Karta[,] TestowaSiatka(out List<Karta> rezerwa)
-    {
-        Karta[,] siatka = new Karta[19, 7];
-
-        rezerwa = new();
-
-        siatka[1, 0] = new(1, true, "Trefl");
-        siatka[0, 0] = new(2, true, "Trefl");
-
-        return siatka;
-    }
     ///<summary>
     /// ta metoda odkrywa karty na końcu każdej kolumny
     /// </summary>

@@ -58,7 +58,7 @@ public static class UI
     /// <param name="gra">gra</param>
     /// <param name="czyKoniec">czy wszystkie karty zostały odkryte</param>
     /// <param name="advice">napis który wyświetli się na dole ekranu</param>
-    public static void UpdateUi(Gra gra, bool czyKoniec = false, string advice = "")
+    public static void UpdateUi(Gra gra, bool czyKoniec, string advice = "")
     {//Ta metoda renderuje karty w terminalu 
 
         string symbolZakryty = "x";
@@ -66,10 +66,6 @@ public static class UI
         Utilities.Clear();
 
         Console.ForegroundColor = ConsoleColor.Black; //zmiana koloru na czarny
-
-
-        OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
-
 
         if (gra.rezerwa!.Count != 0)//jeżeli pierwsza karta z rezerwy istnieje:
             Console.Write("     +     "); //Drukuje + który udaje rezerwę
@@ -82,9 +78,6 @@ public static class UI
             Console.Write("          ");    //Pusta przestrzeń
 
         Console.Write("\t\t");
-
-
-
 
         if (gra.kartyGora![0, 0] != null)  //Renderuje fundamenty
         {
@@ -147,7 +140,7 @@ public static class UI
             {
                 for (int kolumna = 0; kolumna < 7; kolumna++)
                 {
-                    Karta karta = gra.siatka[wiersz, kolumna];
+                    Karta karta = gra.siatka![wiersz, kolumna];
 
                     if (karta != null)
                     {
@@ -166,7 +159,7 @@ public static class UI
                         Console.Write("          ");
                     }
                 }
-                if (!areAllEmpty(gra.siatka, wiersz))
+                if (!areAllEmpty(gra.siatka!, wiersz))
                 {
                     Console.WriteLine();
                 }
@@ -188,28 +181,7 @@ public static class UI
             Console.WriteLine("\n\n" + advice);
         }
     }
-    ///<summary>
-    /// ta metoda odkrywa karty na końcu każdej kolumny
-    /// </summary>
-    private static void OdkryjKarty(ref Karta[,] siatka)
-    {
-        for (int kolumna = 0; kolumna < 7; kolumna++) //kolumny
-        {
-            for (int wiersz = 0; wiersz < 19; wiersz++) //wiersze
-            {
-                Karta karta = siatka[wiersz, kolumna];
-                if (karta != null)
-                {
-                    if (wiersz + 1 < siatka.GetLength(0) && siatka[wiersz + 1, kolumna] == null) // jeżeli karta poniżej nie wychodzi za index tablicy i jest pusta:
-                    {
-                        siatka[wiersz, kolumna].odkryta = true;  //Karta zostaje odkrtyta
-                    }
-                }
 
-            }
-        }
-
-    }
     /// <summary>
     /// znajduje ostatnią kartę w kolumnie i zwraca jej wiersz
     /// </summary>

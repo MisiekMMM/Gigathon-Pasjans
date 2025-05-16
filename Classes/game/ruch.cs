@@ -15,7 +15,7 @@ public static class Ruch
     /// <param name="gra.rezerwaOdkryta!">Rezerwa odkryta</param>
     /// <param name="gra.rezerwa">Rezerwa</param>
     /// <param name="gra.kartyGora!">Stosy końcowe</param>
-    public static void Rusz(ref Gra gra, bool isMove, string source, string destination, bool czyKoniec)
+    public static void Rusz(ref Gra gra, bool isMove, string source, string destination)
     {
         try
         {
@@ -43,14 +43,17 @@ public static class Ruch
                             gra.siatka![wiersz, kolumna] = null;
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
+                            Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
 
-
-                            UI.UpdateUi(gra);
+                            UI.UpdateUi(gra, gra.czyWszystkieOdkryte());
+                            return;
                         }
                         else
                         {
+                            Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
 
-                            UI.UpdateUi(gra, czyKoniec, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            UI.UpdateUi(gra, gra.czyWszystkieOdkryte(), "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            return;
                         }
 
                     }
@@ -85,8 +88,9 @@ public static class Ruch
 
 
 
-
-                                UI.UpdateUi(gra);
+                                Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+                                UI.UpdateUi(gra, gra.czyWszystkieOdkryte());
+                                return;
                             }
                             else
                             {
@@ -112,21 +116,25 @@ public static class Ruch
                                     }
 
 
+                                    Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
 
-
-                                    UI.UpdateUi(gra);
+                                    UI.UpdateUi(gra, gra.czyWszystkieOdkryte());
+                                    return;
                                 }
                                 catch (Exception ex)
                                 {
                                     Utilities.Blad("Pojawił się błąd podczas przesuwania stosu!", "Niestety muszę to naprawić (linijka 183)", ex);
-                                    UI.UpdateUi(gra);
+                                    Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+                                    UI.UpdateUi(gra, gra.czyWszystkieOdkryte());
+                                    return;
                                 }
                             }
                         }
                         else
                         {
-
-                            UI.UpdateUi(gra, czyKoniec, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+                            UI.UpdateUi(gra, gra.czyWszystkieOdkryte(), "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            return;
                         }
                     }
                 }
@@ -160,14 +168,16 @@ public static class Ruch
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
 
+                            Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
 
-
-                            UI.UpdateUi(gra);
+                            UI.UpdateUi(gra, gra.czyWszystkieOdkryte());
+                            return;
                         }
                         else
                         {
-
-                            UI.UpdateUi(gra, czyKoniec, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+                            UI.UpdateUi(gra, gra.czyWszystkieOdkryte(), "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            return;
                         }
                     }
                 }
@@ -193,13 +203,15 @@ public static class Ruch
                                 gra.rezerwaOdkryta!.RemoveAt(0);
                             }
 
-
-                            UI.UpdateUi(gra);
+                            Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+                            UI.UpdateUi(gra, gra.czyWszystkieOdkryte());
+                            return;
                         }
                         else
                         {
-
-                            UI.UpdateUi(gra, czyKoniec, "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+                            UI.UpdateUi(gra, gra.czyWszystkieOdkryte(), "Ta karta tu nie pasuje!\nJeżeli nie wiesz jak grać napisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                            return;
                         }
 
                     }
@@ -220,22 +232,25 @@ public static class Ruch
                             gra.rezerwaOdkryta!.RemoveAt(0);
 
 
+                            Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
 
-
-                            UI.UpdateUi(gra);
+                            UI.UpdateUi(gra, gra.czyWszystkieOdkryte());
+                            return;
                         }
                         else
                         {
-
-                            UI.UpdateUi(gra, czyKoniec, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
+                            Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+                            UI.UpdateUi(gra, gra.czyWszystkieOdkryte(), "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
+                            return;
                         }
 
                     }
                 }
                 else if (miejsce == 0)
                 {
-
-                    UI.UpdateUi(gra, czyKoniec, "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
+                    Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+                    UI.UpdateUi(gra, gra.czyWszystkieOdkryte(), "Podano niepoprawny ruch. Sprawdź czy nazwy kart się zgadzają.");
+                    return;
                 }
             }
             else if (source == "+")
@@ -247,7 +262,10 @@ public static class Ruch
                     gra.rezerwaOdkryta!.Insert(0, gra.rezerwa[0]);
                     gra.rezerwa.RemoveAt(0);
 
-                    UI.UpdateUi(gra);
+                    Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+
+                    UI.UpdateUi(gra, gra.czyWszystkieOdkryte());
+                    return;
                 }
                 else
                 {
@@ -256,33 +274,41 @@ public static class Ruch
                         gra.rezerwa.Add(gra.rezerwaOdkryta![i]);
                         gra.rezerwaOdkryta!.RemoveAt(i);
                     }
-
-                    UI.UpdateUi(gra);
+                    Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+                    UI.UpdateUi(gra, gra.czyWszystkieOdkryte());
+                    return;
                 }
 
             }
             else if (source == "wygrana")
             {
-                if (czyKoniec)
+                if (gra.czyWszystkieOdkryte())
                 {
                     gra.siatka = new Karta[19, 7];
                 }
                 else
                 {
-                    UI.UpdateUi(gra, czyKoniec, "Nie wszystkie karty zostały odkryte");
+                    Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+                    UI.UpdateUi(gra, gra.czyWszystkieOdkryte(), "Nie wszystkie karty zostały odkryte");
+                    return;
                 }
             }
             else
             {
-
-                UI.UpdateUi(gra, czyKoniec, "Podano niepoprawny ruch!\nNapisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
-
+                Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+                UI.UpdateUi(gra, gra.czyWszystkieOdkryte(), "Podano niepoprawny ruch!\nNapisz X aby wyjść i przeczytaj instrukcję w menu Jak Grać");
+                return;
             }
         }
         catch (Exception ex)
         {
             Utilities.Blad("Coś się stało, ale nie wiem co!", "Przeczytaj instrukcję w menu Jak Grać", ex);
-            UI.UpdateUi(gra);
+            Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+            UI.UpdateUi(gra, gra.czyWszystkieOdkryte());
+            return;
         }
+        Siatka.OdkryjKarty(ref gra.siatka!); //odkrywa karty na spodzie stosu
+        UI.UpdateUi(gra, gra.czyWszystkieOdkryte());
+        return;
     }
 }

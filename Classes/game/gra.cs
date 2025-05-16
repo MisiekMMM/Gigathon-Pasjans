@@ -29,7 +29,9 @@ public class Gra
 
         talia = Talia.Tasuj(talia, isSeed, seed); //Tasowanie talii
 
-        siatka = Siatka.ZrobSiatke(talia, out rezerwa); //Tworzy siatkę
+        //siatka = Siatka.ZrobSiatke(talia, out rezerwa); //Tworzy siatkę
+
+        siatka = Siatka.TestowaSiatka(out rezerwa);
 
         rezerwaOdkryta = new(); //Tworzenie listy z odkrytą rezerwą
 
@@ -47,7 +49,13 @@ public class Gra
 
         Utilities.Clear(); //odświeżenie konsoli
 
-        UI.UpdateUi(this);   //Renderuje siatkę
+        var modified = this;
+
+        Siatka.OdkryjKarty(ref modified.siatka!); //odkrywa karty na spodzie stosu
+
+        Wczytaj(modified);
+
+        UI.UpdateUi(this, false);   //Renderuje siatkę
 
 
 
@@ -57,11 +65,9 @@ public class Gra
         {
             bool isMove = Preferencje.ZapytajORuch(out string source, out string destination);
 
-            var modified = this;
+            modified = this;
 
-            bool czyKoniec = czyWszystkieOdkryte();
-
-            Ruch.Rusz(ref modified, isMove, source, destination, czyKoniec);
+            Ruch.Rusz(ref modified, isMove, source, destination);
 
             this.Wczytaj(modified);
         }
@@ -95,7 +101,7 @@ public class Gra
     /// <summary>
     /// sprawdza, czy wszystkie karty zostały odkryte
     /// </summary>
-    private bool czyWszystkieOdkryte()
+    public bool czyWszystkieOdkryte()
     {
 
         foreach (Karta karta in siatka!)

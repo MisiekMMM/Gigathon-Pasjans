@@ -108,4 +108,38 @@ public static class Siatka
         }
         return -1;
     }
+
+    public static Karta[,] TestowaSiatka(out List<Karta> rezerwa)
+    {
+        Karta[,] siatka = new Karta[19, 7];
+
+        rezerwa = new();
+
+        siatka[1, 0] = new(1, true, "Trefl");
+        siatka[0, 0] = new(2, true, "Trefl");
+
+        return siatka;
+    }
+    ///<summary>
+    /// ta metoda odkrywa karty na końcu każdej kolumny
+    /// </summary>
+    public static void OdkryjKarty(ref Karta[,] siatka)
+    {
+        for (int kolumna = 0; kolumna < 7; kolumna++) //kolumny
+        {
+            for (int wiersz = 0; wiersz < 19; wiersz++) //wiersze
+            {
+                Karta karta = siatka[wiersz, kolumna];
+                if (karta != null)
+                {
+                    if (wiersz + 1 < siatka.GetLength(0) && siatka[wiersz + 1, kolumna] == null) // jeżeli karta poniżej nie wychodzi za index tablicy i jest pusta:
+                    {
+                        siatka[wiersz, kolumna].odkryta = true;  //Karta zostaje odkrtyta
+                    }
+                }
+
+            }
+        }
+
+    }
 }

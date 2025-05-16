@@ -50,7 +50,7 @@ public static class Talia
     /// <param name="czySeed"></param>
     /// <param name="seedPodany">Seed</param>
     /// <returns></returns>
-    static public List<Karta> Tasuj(List<Karta> kartas, bool czySeed, int seedPodany = 0)
+    public static List<Karta> Tasuj(List<Karta> kartas, bool czySeed, int seedPodany = 0)
     {
         Random rnd = new Random();
 
@@ -79,4 +79,5 @@ public static class Talia
 
         return shuffled;
     }
+
 }

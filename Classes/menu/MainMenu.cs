@@ -18,7 +18,7 @@ public static class MainMenu
     /// </summary>
     public static void Otworz()
     {
-        switch (Preferencje.ZapytajLista(["Zagraj", "Ustawienia", "Jak Grać"]))  // zapytanie użytkownika
+        switch (Preferencje.ZapytajLista(["Zagraj", "Ustawienia", "Jak Grać", "Wyjdź"]))  // zapytanie użytkownika
         //switch (1)  //W przypadku debugowania visual studio code nie obsługuje Console.ReadKey();
         {
             case 1:
@@ -29,6 +29,9 @@ public static class MainMenu
                 break;
             case 3:
                 Tutorial.Otworz();  //Otwarcie menu jak grać
+                break;
+            case 4:
+                Environment.Exit(0);
                 break;
             default:
                 break;

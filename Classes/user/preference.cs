@@ -90,12 +90,12 @@ public static class Preferencje
     /// <returns></returns>
     public static bool Rozdziel(string ruch, out string source, out string destination)
     {
-        ruch = ruch.ToLower();
+        ruch = ruch.ToLower().Trim();
 
         source = "";
         destination = "";
 
-        string wzorKarty = @"^(10|[2-9]|as|[kqj]) (pik|karo|trefl|kier)$";
+        string wzorKarty = @"^(10|[2-9]|as|[kqj])( |)(pik|karo|trefl|kier)$";
 
         Match match = Regex.Match(ruch, wzorKarty);
         if (ruch == "+")
@@ -110,17 +110,21 @@ public static class Preferencje
 
             string[] splitted = ruch.Split('-', 2);
 
+            match = Regex.Match(splitted[0], wzorKarty);
+
+            source = match.Groups[1].Value + " " + match.Groups[3].Value;
+
             if (splitted.Length != 2)
                 return false;
 
 
-            source = splitted[0];
+
             destination = splitted[1];
         }
         else if (match.Success)
         {
-            destination = match.Groups[2].Value;
-            source = match.Groups[0].Value;
+            destination = match.Groups[3].Value;
+            source = $"{match.Groups[1].Value} {match.Groups[3].Value}";
         }
         return true;
     }

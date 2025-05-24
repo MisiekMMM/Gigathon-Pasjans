@@ -90,7 +90,7 @@ public static class Preferencje
     /// <returns></returns>
     public static bool Rozdziel(string ruch, out string source, out string destination)
     {
-        ruch = ruch.ToLower().Trim();
+        ruch = ruch.ToLower().Trim().Replace(" ", "");
 
         source = "";
         destination = "";
@@ -98,11 +98,6 @@ public static class Preferencje
         string wzorKarty = @"^(10|[2-9]|as|[kqj])( |)(pik|karo|trefl|kier)$";
 
         Match match = Regex.Match(ruch, wzorKarty);
-        if (ruch == "+")
-        {
-            source = "+";
-            destination = "+";
-        }
 
         if (ruch.Contains("-"))
         {
